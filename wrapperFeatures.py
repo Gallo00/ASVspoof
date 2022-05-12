@@ -21,50 +21,37 @@ def computeFeatures(fileAudio,samplerate):
     #*************************************************
 
     output.append(bfcc(fileAudio,samplerate).mean())
-
     output.append(lfcc(fileAudio,samplerate).mean())
-
     output.append(lpc(fileAudio,samplerate).mean())
-
     output.append(lpcc(fileAudio,samplerate).mean())
-
     output.append(mfcc(fileAudio,samplerate).mean())
-
     output.append(imfcc(fileAudio,samplerate).mean())
-    
     output.append(msrcc(fileAudio,samplerate).mean())
-
     output.append(ngcc(fileAudio,samplerate).mean())
 
-
     """
-    # da errori sui file flac
-    output.append(pncc().mean()) #buggata??
+    # bug in pncc
+    output.append(pncc().mean()) 
     """
     output.append(psrcc(fileAudio,samplerate).mean())
-
     output.append(plp(fileAudio,samplerate).mean())
-
     output.append(rplp(fileAudio,samplerate).mean())
 
-    #definire valori di input per metodi di filter_banks
     output.append(mel_fbanks.mel_filter_banks(fs = samplerate).mean())
-
     output.append(bark_fbanks.bark_filter_banks(fs = samplerate).mean())
-
     output.append(gammatone_fbanks.gammatone_filter_banks(fs = samplerate).mean())
 
     d = extract_feats(fileAudio,samplerate)
     l = list(d.values())
 
-    #il primo elemento è la durata del file audio, non è un dato che aiuta nella classificazione
+    # pop first element, it's duration of file (not useful for classification)
     l.pop(0)
 
 
-    #convertiamo ndarray in float (con la media)
-    #convertiamo tuple sempre in una media
-    #liste le convertiamo in una media (se la lista è vuota mettiamo 0)
-    #i numeri complessi li convertiamo in float tramite abs()
+    # convert ndarrays to float (using mean)
+    # same thing for tuples
+    # convert the lists to float using statistics.mean(), (if the list is empty assume mean is 0)
+    # convert complex numbers into float using abs()
     for i in range(len(l)):
         if type(l[i]).__name__ == "ndarray":
             l[i] = l[i].mean()
@@ -78,5 +65,4 @@ def computeFeatures(fileAudio,samplerate):
         elif type(l[i]).__name__ == "complex128":
             l[i] = abs(l[i])
 
-    output = output + l
-    return output
+    return output + l

@@ -1,8 +1,5 @@
-import numpy as np
 
-#return names of features
-def getNamesFeatures():
-    arrNames = ["bfcc",
+FEATURES = ["bfcc",
             "lfcc",
             "lpc",
             "lpcc",
@@ -49,4 +46,3 @@ def getNamesFeatures():
             "maxdom",
             "dfrange",
             "modindex"]
-    return arrNames

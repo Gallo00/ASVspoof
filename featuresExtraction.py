@@ -1,6 +1,6 @@
 import csv
-import tarfile #per i file tar.gz
-import soundfile as sf #per i file flac
+import tarfile 
+import soundfile as sf 
 import numpy as np
 import os
 import pandas as pd
@@ -11,69 +11,68 @@ from wrapperFeatures import computeFeatures
 
 from getNamesFeatures import getNamesFeatures
 
-#apriamo file txt con tarfile e estraimolo
+from constants import FEATURES
+
+# open txt and extract
 tLabels = tarfile.open("set_tesi\DF-keys-stage-1.tar.gz","r:gz")
 txt = tLabels.extractfile(tLabels.getmember('keys/CM/trial_metadata.txt'))
 
 
-#leggiamo le righe del file con le labels
+# read lines; each line has <filename> - <label>
 listLines = txt.readlines()
 
 
-#apriamo in successione i 4 tar.gz
 tPart00 = tarfile.open("set_tesi\ASVspoof2021_DF_eval_part00.tar.gz","r:gz")
 arrFilesPart00 = tPart00.getmembers()
-print("getMembers Part00 completata")
+print("getMembers Part00 completed")
 
-#elemento 0: ASVspoof2021_DF_eval/ASVspoof2021.DF.cm.eval.trl.txt
-#elemento 1: ASVspoof2021_DF_eval/LICENSE.DF.txt
-#elemento 2: ASVspoof2021_DF_eval/README.DF.txt
-#restanti elementi: file flac
+# element 0: ASVspoof2021_DF_eval/ASVspoof2021.DF.cm.eval.trl.txt
+# element 1: ASVspoof2021_DF_eval/LICENSE.DF.txt
+# element 2: ASVspoof2021_DF_eval/README.DF.txt
+# remaining elements: flac files
 
-#rimuoviamo i primi 3 elementi dall'array
+# remove first 3 elements of arrFilesPart00
 arrFilesPart00.pop(0)
 arrFilesPart00.pop(0)
 arrFilesPart00.pop(0)
 
-#negli altri tar.gz non ci sono questi elementi
+# in the other tar.gz we don't have to do that
 
 arr = arrFilesPart00[0:10]
 
-#OTTENIAMO I NOMI DELLE FEATURES
-arrNames = getNamesFeatures()
 
-
-#aprire/creare file csv e aggiungere l'header
+# create csv and set the header 
 with open('prova.csv', 'w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(["file","label"] + getNamesFeatures())
+    writer.writerow(["file","label"] + FEATURES)
     file.close()
 
 file = open('prova.csv','a',newline='')
-#disattivare warnings
+# disable warnings
 #https://stackoverflow.com/questions/14463277/how-to-disable-python-warnings
 for i in tqdm(range(len(arr))):
 
     l = listLines[i]
-    arrRow = l.decode().split(" ") #ogni linea viene splittata in tokens
+    arrRow = l.decode().split(" ") 
     rowF = []
-    rowF.append(arrRow[1] + ".flac") #conserviamo i token 1 e 5, sono rispettivamente il nome del file(senza .flac) e l'etichetta
+    rowF.append(arrRow[1] + ".flac") # we are going to use elements from position 1 and 5 (1: file , 5: label)
     rowF.append(arrRow[5])
 
-    #estrazione e lettura file
+    # extract and read file
     fileAudio = tPart00.extractfile(arr[i].name)
-    fileAudioLetto , samplerate = sf.read(fileAudio)
+    fileAudioR , samplerate = sf.read(fileAudio)
 
-    #calcolo features
-    lF = computeFeatures(fileAudioLetto,samplerate)
-    #creazione della nuova riga e push nel dataframe
-    nomeFile = arr[i].name.split("/")[-1] #ci da il nome del file (con .flac)
+    lF = computeFeatures(fileAudioR,samplerate)
 
-    r = rowF + lF # nome_file.flac - label - feature1 - feature2 ... featureN
+    # creation of new line 
+    nomeFile = arr[i].name.split("/")[-1] 
+    r = rowF + lF # file_name.flac - label - feature1 - feature2 ... featureN
 
+    # append new line to csv
     writer = csv.writer(file)
     writer.writerow(r)
-#riattivare warnings
+
+# enable warnings
 #https://stackoverflow.com/questions/29784889/python-how-to-enable-all-warnings
 file.close()
 
