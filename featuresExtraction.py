@@ -46,12 +46,10 @@ arrNames = getNamesFeatures()
 #aprire/creare file csv e aggiungere l'header
 with open('prova.csv', 'w', newline='') as file:
     writer = csv.writer(file)
-    writer.writerow(getNamesFeatures())
+    writer.writerow(["file","label"] + getNamesFeatures())
     file.close()
 
 file = open('prova.csv','a',newline='')
-
-#print(dfLabels[dfLabels["fileFlac"]=="DF_E_2000013"].loc[1]["label"]) #come ottenere la label del fileFlac DF_E_2000013
 #disattivare warnings
 #https://stackoverflow.com/questions/14463277/how-to-disable-python-warnings
 for i in tqdm(range(len(arr))):
