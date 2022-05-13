@@ -1,4 +1,3 @@
-#librerie per le features
 from spafe.features.bfcc import bfcc
 from spafe.features.lfcc import lfcc
 from spafe.features.lpc import lpc, lpcc
@@ -12,34 +11,22 @@ from spafe.fbanks import mel_fbanks , bark_fbanks , gammatone_fbanks
 from spafe.features.spfeats import extract_feats
 
 import statistics
+import numpy
 
-def computeFeatures(fileAudio,samplerate):
+def computeFeatures(fileAudio: numpy.array ,samplerate: int) -> list:
 
     output = []
-    #definire valori di input ulteriori per le seguenti funzioni
 
-    #*************************************************
+    feature_spectrum = [bfcc, lfcc, lpc, lpcc, mfcc, imfcc, msrcc, ngcc, psrcc, plp, rplp]
+    
+    for feat in feature_spectrum:
+        output.append(feat(fileAudio,samplerate).mean())
 
-    output.append(bfcc(fileAudio,samplerate).mean())
-    output.append(lfcc(fileAudio,samplerate).mean())
-    output.append(lpc(fileAudio,samplerate).mean())
-    output.append(lpcc(fileAudio,samplerate).mean())
-    output.append(mfcc(fileAudio,samplerate).mean())
-    output.append(imfcc(fileAudio,samplerate).mean())
-    output.append(msrcc(fileAudio,samplerate).mean())
-    output.append(ngcc(fileAudio,samplerate).mean())
 
-    """
-    # bug in pncc
-    output.append(pncc().mean()) 
-    """
-    output.append(psrcc(fileAudio,samplerate).mean())
-    output.append(plp(fileAudio,samplerate).mean())
-    output.append(rplp(fileAudio,samplerate).mean())
+    feat_fbanks = [mel_fbanks.mel_filter_banks , bark_fbanks.bark_filter_banks , gammatone_fbanks.gammatone_filter_banks]
 
-    output.append(mel_fbanks.mel_filter_banks(fs = samplerate).mean())
-    output.append(bark_fbanks.bark_filter_banks(fs = samplerate).mean())
-    output.append(gammatone_fbanks.gammatone_filter_banks(fs = samplerate).mean())
+    for feat in feat_fbanks:
+        output.append(feat(fs = samplerate).mean())
 
     d = extract_feats(fileAudio,samplerate)
     l = list(d.values())
@@ -50,7 +37,7 @@ def computeFeatures(fileAudio,samplerate):
 
     # convert ndarrays to float (using mean)
     # same thing for tuples
-    # convert the lists to float using statistics.mean(), (if the list is empty assume mean is 0)
+    # convert the lists to float using statistics.mean() (if the list is empty assume mean is 0)
     # convert complex numbers into float using abs()
     for i in range(len(l)):
         if type(l[i]).__name__ == "ndarray":
