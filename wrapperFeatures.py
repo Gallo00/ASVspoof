@@ -4,7 +4,6 @@ from spafe.features.lpc import lpc, lpcc
 from spafe.features.mfcc import mfcc, imfcc
 from spafe.features.msrcc import msrcc
 from spafe.features.ngcc import ngcc
-from spafe.features.pncc import pncc
 from spafe.features.psrcc import psrcc
 from spafe.features.rplp import rplp, plp
 from spafe.fbanks import mel_fbanks , bark_fbanks , gammatone_fbanks
@@ -13,14 +12,14 @@ from spafe.features.spfeats import extract_feats
 import statistics
 import numpy
 
-def computeFeatures(fileAudio: numpy.array ,samplerate: int) -> list:
+def compute_features(file_audio: numpy.array, samplerate: int) -> list:
 
     output = []
 
     feature_spectrum = [bfcc, lfcc, lpc, lpcc, mfcc, imfcc, msrcc, ngcc, psrcc, plp, rplp]
     
     for feat in feature_spectrum:
-        output.append(feat(fileAudio,samplerate).mean())
+        output.append(feat(file_audio,samplerate).mean())
 
 
     feat_fbanks = [mel_fbanks.mel_filter_banks , bark_fbanks.bark_filter_banks , gammatone_fbanks.gammatone_filter_banks]
@@ -28,7 +27,7 @@ def computeFeatures(fileAudio: numpy.array ,samplerate: int) -> list:
     for feat in feat_fbanks:
         output.append(feat(fs = samplerate).mean())
 
-    d = extract_feats(fileAudio,samplerate)
+    d = extract_feats(file_audio,samplerate)
     l = list(d.values())
 
     # pop first element, it's duration of file (not useful for classification)
