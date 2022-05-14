@@ -7,7 +7,7 @@ import pandas as pd
 from tqdm import tqdm
 import scipy
 
-from wrapperFeatures import compute_features
+from wrapperfeatures import compute_features
 
 from constants import FEATURES
 

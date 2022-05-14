@@ -1,4 +1,4 @@
-from wrapperFeatures import computeFeatures
+from wrapperfeatures import computeFeatures
 
 from spafe.features.spfeats import extract_feats
 import soundfile as sf 
