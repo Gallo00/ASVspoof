@@ -13,44 +13,21 @@ from constants import FEATURES
 
 import warnings
 
-# open txt and extract
-tLabels = tarfile.open("set_tesi\DF-keys-stage-1.tar.gz","r:gz")
-txt = tLabels.extractfile(tLabels.getmember('keys/CM/trial_metadata.txt'))
+# open txt
+txt = open("set_tesi/DF-keys-stage-1/keys/CM/trial_metadata.txt",mode='r')
 
 
 # read lines; each line has <filename> - <label>
 list_lines = txt.readlines()
 
 
-tPart00 = tarfile.open("set_tesi\ASVspoof2021_DF_eval_part00.tar.gz","r:gz")
-arr_files_part00 = tPart00.getmembers()
-print("getmembers Part00 completed")
-
-tPart01 = tarfile.open("set_tesi\ASVspoof2021_DF_eval_part01.tar.gz","r:gz")
-arr_files_part01 = tPart01.getmembers()
-print("getmembers Part01 completed")
-
-tPart02 = tarfile.open("set_tesi\ASVspoof2021_DF_eval_part02.tar.gz","r:gz")
-arr_files_part02 = tPart02.getmembers()
-print("getmembers Part02 completed")
-
-tPart03 = tarfile.open("set_tesi\ASVspoof2021_DF_eval_part03.tar.gz","r:gz")
-arr_files_part03 = tPart03.getmembers()
-print("getmembers Part03 completed")
+# get name of all files 
+arr_files_part00 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac")
+arr_files_part01 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac")
+arr_files_part02 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac")
+arr_files_part03 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac")
 
 
-# NOTES FOR PART00
-# element 0: ASVspoof2021_DF_eval/ASVspoof2021.DF.cm.eval.trl.txt
-# element 1: ASVspoof2021_DF_eval/LICENSE.DF.txt
-# element 2: ASVspoof2021_DF_eval/README.DF.txt
-# remaining elements: flac files
-
-# remove first 3 elements of arr_files_part00
-arr_files_part00.pop(0)
-arr_files_part00.pop(0)
-arr_files_part00.pop(0)
-
-# in the other tar.gz we don't have to do that
 
 #create a list that contains all files
 arr_files_set = arr_files_part00 + arr_files_part01 + arr_files_part02 + arr_files_part03
@@ -68,16 +45,15 @@ lines02 = list_lines[(len00 + len01):(len00 + len01 + len02)]
 lines03 = list_lines[(len00 + len01 + len02):(len00 + len01 + len02 + len03)]
 
 
-packs = [[tPart00, arr_files_part00, len00, lines00, "Part00"],
-         [tPart01, arr_files_part01, len01, lines01, "Part01"],
-         [tPart02, arr_files_part02, len02, lines02, "Part02"],
-         [tPart03, arr_files_part03, len03, lines03, "Part03"],]
-#0: tarFile obj
-#1: array of Files
-#2: length of the array
-#3: lines in txt file
-#4: name of file
-
+packs = [[arr_files_part00, len00, lines00, "Part00","set_tesi/ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/"],
+         [arr_files_part01, len01, lines01, "Part01","set_tesi/ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/"],
+         [arr_files_part02, len02, lines02, "Part02","set_tesi/ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/"],
+         [arr_files_part03, len03, lines03, "Part03","set_tesi/ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/"],]
+#0: array of Files
+#1: length of the array
+#2: lines in txt file
+#3: name of pack
+#4: path
 
 # create csv and set the header 
 with open('prova.csv', 'w', newline='') as file:
@@ -95,23 +71,23 @@ writer = csv.writer(file)
 warnings.filterwarnings("ignore")
 
 for pack in packs:
-    print("writing lines from " + pack[4] + " into the csv file...")
-    for i in tqdm(range(pack[2])):
-        arr_row = (pack[3])[i].decode().split(" ") 
+    print("writing lines from " + pack[3] + " into the csv file...")
+    for i in tqdm(range(pack[1])): 
+        arr_row = (pack[2])[i].split(" ") 
         row_file = []
         row_file.append(arr_row[1] + ".flac") # we are going to use elements from position 1 and 5 (1: file , 5: label)
         row_file.append(arr_row[5])
 
-        # extract and read file
-        file_audio = pack[0].extractfile((pack[1])[i].name)
-        file_audioR , samplerate = sf.read(file_audio)
+        file_audio = pack[0][i]
+        file_audioR , samplerate = sf.read(pack[4] + file_audio)
 
         list_features = compute_features(file_audioR,samplerate)
 
         # creation of new line 
-        #r = rowF + lF # file_name.flac - label - feature1 - feature2 ... featureN
+        # file_name.flac - label - feature1 - feature2 ... featureN
         # append new line to csv
         writer.writerow(row_file + list_features)
+
 
 # enable warnings
 #https://stackoverflow.com/questions/29784889/python-how-to-enable-all-warnings
@@ -119,40 +95,5 @@ for pack in packs:
 warnings.simplefilter('always')
 
 file.close()
-
 txt.close()
-tLabels.close()
-tPart00.close()
-tPart01.close()
-tPart02.close()
-tPart03.close()
 
-
-"""
-for i in tqdm(range(len(arrFilesSet))):
-
-    #l = list_lines[i]
-    arrRow = list_lines[i].decode().split(" ") 
-    rowF = []
-    rowF.append(arrRow[1] + ".flac") # we are going to use elements from position 1 and 5 (1: file , 5: label)
-    rowF.append(arrRow[5])
-
-    # extract and read file
-    tPart = None
-    if(i < len00): tPart = tPart00
-    elif (i < len01): tPart = tPart01
-    elif (i < len02): tPart = tPart02
-    else: tPart = tPart03
-
-
-    file_audio = tPart.extractfile(arrFilesSet[i].name)
-    file_audioR , samplerate = sf.read(file_audio)
-
-    lF = computeFeatures(file_audioR,samplerate)
-
-    # creation of new line 
-    #r = rowF + lF # file_name.flac - label - feature1 - feature2 ... featureN
-    # append new line to csv
-    writer.writerow(rowF + lF)
-
-"""
