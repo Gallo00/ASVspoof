@@ -7,6 +7,7 @@ Previously you have to create the directory "set_tesi" (in the same directory of
 
 set_tesi has to have this structure
 
+``` 
 set_tesi
 |
 |-ASVspoof2021_DF_eval_part00
@@ -53,3 +54,4 @@ set_tesi
     |-CM
       |
       |-trial_metadata.txt
+``` 
