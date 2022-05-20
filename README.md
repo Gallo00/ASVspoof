@@ -46,7 +46,7 @@ set_tesi
       |-flac
         |
         |-all flac files-
-        
+|        
 |-DF-keys-stage-1
   |
   |-keys
