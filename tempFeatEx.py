@@ -64,7 +64,7 @@ with open('prova.csv', 'w', newline='') as file:
     writer.writerow(["file","label"] + FEATURES)
     file.close()
 
-file = open('prova.csv','a',newline='')
+file = open('tempDS.csv','a',newline='')
 writer = csv.writer(file)
 
 countDF = 0 
