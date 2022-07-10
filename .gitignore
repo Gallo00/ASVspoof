@@ -1,2 +1,5 @@
 set_tesi
 __pycache__
+dataset.csv
+img_feat_freedman_diaconis
+img_feat_knuth

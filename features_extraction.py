@@ -1,11 +1,7 @@
-import csv
-import tarfile 
+import csv 
 import soundfile as sf 
-import numpy as np
 import os
-import pandas as pd
 from tqdm import tqdm
-import scipy
 
 from wrapper_features import compute_features
 
