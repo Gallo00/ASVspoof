@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy import void
 import pandas as pd
 from create_curve import create_curve
@@ -9,7 +10,7 @@ def clear_plt() -> void:
     plt.cla()
     plt.close()
 
-def save_fig_single_plot(feat: str, dataframe, method: str, folder: str):
+def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str) -> Union[np.ndarray,int]:
     color = 'red'
     if(folder == 'bonafide'):
         color = 'blue'
@@ -23,8 +24,8 @@ def save_fig_single_plot(feat: str, dataframe, method: str, folder: str):
     plt.savefig('img_feat_' + method + '/' + folder + '/' + feat + '.png')
     return curve, lsize
 
-def save_fig_double_plot(feat, lsize_deepfake, curve_deepfake,
- lsize_bonafide, curve_bonafide, method):
+def save_fig_double_plot(feat: str, lsize_deepfake: int, curve_deepfake: np.ndarray,
+ lsize_bonafide: int, curve_bonafide: np.ndarray, method: str) -> void:
     plt.title(feat)
 
     plt.plot(curve_deepfake, color='red')

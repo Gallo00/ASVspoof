@@ -1,43 +1,23 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-from create_curve import create_curve
-from constants import FEATURES
+from constants import FEATURES, SAMPLE_ROWS_STATS
 from tqdm import tqdm 
 from create_fig import clear_plt, save_fig_single_plot, save_fig_double_plot
-dataframe = pd.read_csv('temp_ds.csv')
+dataframe = pd.read_csv('dataset.csv')
 #dataframe = pd.read_csv('dataset.csv')
 
 dataframe.pop('spectral_variance')
+# spectral_variance could slow down the script without complete the calc
 
 #print(dataframe.head())
 
-#split dataframe
+# split dataframe
 dataframe_bonafide = dataframe.loc[dataframe['label'] == 'bonafide']
 dataframe_spoof = dataframe.loc[dataframe['label'] == 'spoof']
 
 #df1_elements = df1.sample(n=4)
-dataframe_bonafide = dataframe_bonafide.sample(300)
-dataframe_spoof = dataframe_spoof.sample(300)
+dataframe_bonafide = dataframe_bonafide.sample(SAMPLE_ROWS_STATS)
+dataframe_spoof = dataframe_spoof.sample(SAMPLE_ROWS_STATS)
 
-#extract a column, convert into a list and calculate number of bins
-
-"""
-col = dataframe_spoof['psrcc'].tolist()
-curve, lsize = create_curve(col) 
-
-plt.plot(curve, color='red')
-
-col = dataframe_bonafide['psrcc'].tolist()
-curve, lsize = create_curve(col) 
-plt.plot(curve, color='blue')
-plt.title('psrcc')
-
-leg_str_deepfake = 'deepfake (' + str(lsize) + ')'
-leg_str_bonafide = 'bonafide (' + str(lsize) + ')'
-plt.legend([leg_str_deepfake,leg_str_bonafide])
-
-plt.savefig('img_feat/psrcc.png')
-"""
 
 methods = ['freedman_diaconis','knuth']
 #methods = ['freedman_diaconis']

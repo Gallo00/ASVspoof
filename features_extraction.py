@@ -52,7 +52,7 @@ packs = [[arr_files_part00, len00, lines00, "Part00","set_tesi/ASVspoof2021_DF_e
 #4: path
 
 # create csv and set the header 
-with open('prova.csv', 'w', newline='') as file:
+with open('dataset.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["file","label"] + FEATURES)
     file.close()
