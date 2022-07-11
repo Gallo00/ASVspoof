@@ -58,11 +58,6 @@ set_tesi
 ```
 <br>
 After features extraction we can launch python stats.py <br>
-Previously you have to crate 2 folders:
->- img_feat_freedman_diaconis <br>
->- img_feat_knuth <br>
-Each folder has to have these dirs inside <br>
->-bonafide <br>
->-bonafide_deepfake <br>
->-deepfake <br>
+It will create and save some charts into the directories img_feat_knuth and img_feat_freedman_diaconis. <br>
+The charts represent the behavior of various features for both labels (bonafide and spoof)
 

@@ -3,7 +3,6 @@ from constants import FEATURES, SAMPLE_ROWS_STATS
 from tqdm import tqdm 
 from create_fig import clear_plt, save_fig_single_plot, save_fig_double_plot
 dataframe = pd.read_csv('dataset.csv')
-#dataframe = pd.read_csv('dataset.csv')
 
 dataframe.pop('spectral_variance')
 # spectral_variance could slow down the script without complete the calc
