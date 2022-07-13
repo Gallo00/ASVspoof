@@ -15,13 +15,15 @@ def freedman_diaconis(values: list) -> int:
     # We can get number of bins by bin_width using this formula
     bins = round((values.max() - values.min()) / bin_width)
     if bins == 0:
-        bins = 50
+        return 50
     return bins
 
-def generate_hist(data, method='freedman_diaconis') -> np.ndarray:
-    if(method == 'freedman_diaconis'):
+def generate_hist(data: list, method='freedman_diaconis') -> np.ndarray:
+    print(type(data))
+    bins = 50
+    if method == 'freedman_diaconis':
         bins = freedman_diaconis(data)
-    elif(method == 'knuth'):
+    elif method == 'knuth':
         bins = opt_bins(data,len(data))
     
     hist, __ = np.histogram(data, bins=bins)

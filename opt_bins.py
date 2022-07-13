@@ -2,7 +2,7 @@ import numpy as np
 from scipy import special as sp
 import math
 
-def opt_bins(target, max_bins):
+def opt_bins(target: list, max_bins: int) -> int:
     target = np.array(target)
     """
     :param target: array with size (1, N)
