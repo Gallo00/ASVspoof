@@ -19,7 +19,6 @@ def freedman_diaconis(values: list) -> int:
     return bins
 
 def generate_hist(data: list, method='freedman_diaconis') -> np.ndarray:
-    print(type(data))
     bins = 50
     if method == 'freedman_diaconis':
         bins = freedman_diaconis(data)
