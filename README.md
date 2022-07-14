@@ -2,8 +2,9 @@
 Progetto software per tesi triennale, soluzione della challenge ASVspoof DF
 
 ### Usage
-To run: python featuresextraction.py
-Previously you have to create the directory "set_tesi" (in the same directory of featuresextraction.py)
+To start features_extraction: python features_extraction.py <br>
+It will create the file 'dataset.csv'. <br>
+Previously you have to create the directory "set_tesi" (in the same directory of features_extraction.py)
 
 set_tesi has to have this structure
 
@@ -54,4 +55,9 @@ set_tesi
     |-CM
       |
       |-trial_metadata.txt
-``` 
+```
+<br>
+After features extraction we can launch python stats.py <br>
+It will create and save some charts into the directories img_feat_knuth and img_feat_freedman_diaconis. <br>
+The charts represent the behavior of various features for both labels (bonafide and spoof)
+

@@ -46,3 +46,5 @@ FEATURES = ["bfcc",
             "maxdom",
             "dfrange",
             "modindex"]
+
+SAMPLE_ROWS_STATS = 500
