@@ -7,3 +7,4 @@ tqdm==4.64.0
 matplotlib==3.3.4
 scikit-learn==1.0.2
 scipy==1.6.2
+pickle==4.0

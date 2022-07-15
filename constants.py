@@ -1,3 +1,13 @@
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis 
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis 
 
 FEATURES = ["bfcc",
             "lfcc",
@@ -48,3 +58,19 @@ FEATURES = ["bfcc",
             "modindex"]
 
 SAMPLE_ROWS_STATS = 500
+
+ROWS_CREATION_MODELS = 500
+
+CLASSIFIERS = [ DecisionTreeClassifier,
+        SVC,
+        LogisticRegression,
+        KNeighborsClassifier,
+        LinearDiscriminantAnalysis,
+        GaussianProcessClassifier,
+        RandomForestClassifier,
+        MLPClassifier,
+        AdaBoostClassifier,
+        GaussianNB,
+        MultinomialNB,
+        QuadraticDiscriminantAnalysis
+]
