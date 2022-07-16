@@ -59,14 +59,14 @@ FEATURES = ["bfcc",
 
 SAMPLE_ROWS_STATS = 500
 
-ROWS_CREATION_MODELS = 500
+ROWS_CREATION_MODELS = 2000
 
 CLASSIFIERS = [ DecisionTreeClassifier,
         SVC,
         LogisticRegression,
         KNeighborsClassifier,
         LinearDiscriminantAnalysis,
-        GaussianProcessClassifier,
+        GaussianProcessClassifier, # unstable accuracy
         RandomForestClassifier,
         MLPClassifier,
         AdaBoostClassifier,
@@ -74,3 +74,18 @@ CLASSIFIERS = [ DecisionTreeClassifier,
         MultinomialNB,
         QuadraticDiscriminantAnalysis
 ]
+
+VARIABLES_TO_DROP = [
+        'bark_filter_banks',
+        'freqs_kurtosis',
+        'freqs_skewness',
+        'frequencies_q25',
+        'frequencies_q75',
+        'frequencies_std',
+        'gammatone_filter_banks',
+        'iqr',
+        'maxfun',
+        'mean_frequency',
+        'median_frequency',
+        'mel_filter_banks',
+        'spectral_bandwidth']
