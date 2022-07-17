@@ -5,6 +5,5 @@ SoundFile==0.10.3.post1
 pandas==1.4.3
 tqdm==4.64.0
 matplotlib==3.3.4
-scikit-learn==1.0.2
+scikit-learn==1.1.0
 scipy==1.6.2
-pickle==4.0

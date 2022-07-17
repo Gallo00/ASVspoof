@@ -57,7 +57,7 @@ FEATURES = ["bfcc",
             "dfrange",
             "modindex"]
 
-SAMPLE_ROWS_STATS = 500
+SAMPLE_ROWS_STATS = 10000
 
 ROWS_CREATION_MODELS = 2000
 
@@ -66,7 +66,7 @@ CLASSIFIERS = [ DecisionTreeClassifier,
         LogisticRegression,
         KNeighborsClassifier,
         LinearDiscriminantAnalysis,
-        GaussianProcessClassifier, # unstable accuracy
+        GaussianProcessClassifier,
         RandomForestClassifier,
         MLPClassifier,
         AdaBoostClassifier,
@@ -76,7 +76,10 @@ CLASSIFIERS = [ DecisionTreeClassifier,
 ]
 
 VARIABLES_TO_DROP = [
+        'amplitudes_cum_sum',
         'bark_filter_banks',
+        'dfrange',
+        'energy',
         'freqs_kurtosis',
         'freqs_skewness',
         'frequencies_q25',
@@ -86,6 +89,25 @@ VARIABLES_TO_DROP = [
         'iqr',
         'maxfun',
         'mean_frequency',
+        'meandom',
+        'meanfun',
         'median_frequency',
         'mel_filter_banks',
-        'spectral_bandwidth']
+        'mindom',
+        'minfun',
+        'mode_frequency',
+        'modindex',
+        'msrcc',
+        'peak_frequency',
+        'rms',
+        'spectral_bandwidth',
+        'spectral_centroid',
+        'spectral_entropy',
+        'spectral_flatness',
+        'spectral_mean',
+        'spectral_rms',
+        'spectral_spread',
+        'spectral_std',
+        'spectrum',
+        'spectral_variance',
+        'zcr']
