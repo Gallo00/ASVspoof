@@ -4,6 +4,7 @@ import os
 from tqdm import tqdm
 
 from wrapper_features import compute_features
+import mutagen
 
 from constants import FEATURES
 
@@ -78,6 +79,11 @@ for pack in packs:
         file_audioR , samplerate = sf.read(pack[4] + file_audio)
 
         list_features = compute_features(file_audioR,samplerate)
+
+        f = mutagen.File(pack[4] + file_audio)
+        bitrate = f.info.bitrate
+
+        list_features.append(bitrate)
 
         # creation of new line 
         # file_name.flac - label - feature1 - feature2 ... featureN
