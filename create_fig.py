@@ -10,7 +10,8 @@ def clear_plt() -> void:
     plt.cla()
     plt.close()
 
-def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str) -> Union[np.ndarray,int]:
+def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str,
+ y_lims: tuple, x_lims: tuple) -> Union[np.ndarray,int]:
     color = 'red'
     if(folder == 'bonafide'):
         color = 'blue'
@@ -20,13 +21,22 @@ def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder
     col = dataframe[feat].tolist()
     curve, lsize = create_curve(col, method=method) 
     plt.plot(curve, color=color)
+    plt.gca().set_ylim(y_lims)
+    plt.gca().set_xlim(x_lims)
 
     plt.savefig('img_feat_' + method + '/' + folder + '/' + feat + '.png')
     return curve, lsize
 
-def save_fig_double_plot(feat: str, lsize_deepfake: int, curve_deepfake: np.ndarray,
- lsize_bonafide: int, curve_bonafide: np.ndarray, method: str) -> void:
+def save_fig_double_plot(feat: str, dataframe_bonafide: pd.DataFrame,
+ dataframe_deepfake: pd.DataFrame, method: str) -> Union[tuple, tuple]:
     plt.title(feat)
+
+    col_bonafide = dataframe_bonafide[feat].tolist()
+    curve_bonafide, lsize_bonafide = create_curve(col_bonafide, method=method)
+
+    col_deepfake = dataframe_deepfake[feat].tolist()
+    curve_deepfake, lsize_deepfake = create_curve(col_deepfake, method=method)
+
 
     plt.plot(curve_deepfake, color='red')
     plt.plot(curve_bonafide, color='blue')
@@ -35,4 +45,8 @@ def save_fig_double_plot(feat: str, lsize_deepfake: int, curve_deepfake: np.ndar
     leg_str_bonafide = 'bonafide (' + str(lsize_bonafide) + ')'
     plt.legend([leg_str_deepfake,leg_str_bonafide])
 
+    y_lims = plt.gca().get_ylim()
+    x_lims = plt.gca().get_xlim()
     plt.savefig('img_feat_' + method + '/bonafide_deepfake/' + feat + '.png')
+
+    return y_lims, x_lims

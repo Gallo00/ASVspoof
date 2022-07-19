@@ -25,13 +25,13 @@ for method in methods:
     print(method)
     for feat in tqdm(FEATURES):
         try:
-            curve_deepfake, lsize_deepfake = save_fig_single_plot(feat,dataframe_spoof,method,folder='deepfake')
+            y_lims, x_lims = save_fig_double_plot(feat, dataframe_bonafide, dataframe_spoof, method)
             clear_plt()
 
-            curve_bonafide, lsize_bonafide = save_fig_single_plot(feat,dataframe_bonafide,method,folder='bonafide')
+            curve_deepfake, lsize_deepfake = save_fig_single_plot(feat,dataframe_spoof,method,'deepfake', y_lims, x_lims)
             clear_plt()
-            
-            save_fig_double_plot(feat,lsize_deepfake,curve_deepfake,lsize_bonafide,curve_bonafide,method)
+
+            curve_bonafide, lsize_bonafide = save_fig_single_plot(feat,dataframe_bonafide,method,'bonafide', y_lims, x_lims)
             clear_plt()
         except:
             print("can't calculate for " + feat)

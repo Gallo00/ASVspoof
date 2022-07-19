@@ -55,7 +55,8 @@ FEATURES = ["bfcc",
             "mindom",
             "maxdom",
             "dfrange",
-            "modindex"]
+            "modindex",
+            "bitrate"]
 
 SAMPLE_ROWS_STATS = 10000
 
