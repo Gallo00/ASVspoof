@@ -14,8 +14,8 @@ dataframe_bonafide = dataframe.loc[dataframe['label'] == 'bonafide']
 dataframe_spoof = dataframe.loc[dataframe['label'] == 'spoof']
 
 #df1_elements = df1.sample(n=4)
-dataframe_bonafide = dataframe_bonafide.sample(SAMPLE_ROWS_STATS)
-dataframe_spoof = dataframe_spoof.sample(SAMPLE_ROWS_STATS)
+#dataframe_bonafide = dataframe_bonafide.sample(SAMPLE_ROWS_STATS)
+#dataframe_spoof = dataframe_spoof.sample(SAMPLE_ROWS_STATS)
 
 
 methods = ['freedman_diaconis','knuth']

@@ -19,8 +19,8 @@ def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder
     plt.title(feat)
 
     col = dataframe[feat].tolist()
-    curve, lsize = create_curve(col, method=method) 
-    plt.plot(curve, color=color)
+    curve,bincenters, lsize = create_curve(col, method=method) 
+    plt.plot(curve,bincenters, color=color)
     plt.gca().set_ylim(y_lims)
     plt.gca().set_xlim(x_lims)
 
@@ -32,14 +32,14 @@ def save_fig_double_plot(feat: str, dataframe_bonafide: pd.DataFrame,
     plt.title(feat)
 
     col_bonafide = dataframe_bonafide[feat].tolist()
-    curve_bonafide, lsize_bonafide = create_curve(col_bonafide, method=method)
+    curve_bonafide,bincenters_bonafide, lsize_bonafide = create_curve(col_bonafide, method=method)
 
     col_deepfake = dataframe_deepfake[feat].tolist()
-    curve_deepfake, lsize_deepfake = create_curve(col_deepfake, method=method)
+    curve_deepfake,bincenters_deepfake, lsize_deepfake = create_curve(col_deepfake, method=method)
 
 
-    plt.plot(curve_deepfake, color='red')
-    plt.plot(curve_bonafide, color='blue')
+    plt.plot(bincenters_deepfake,curve_deepfake, color='red')
+    plt.plot(bincenters_bonafide,curve_bonafide, color='blue')
 
     leg_str_deepfake = 'deepfake (' + str(lsize_deepfake) + ')'
     leg_str_bonafide = 'bonafide (' + str(lsize_bonafide) + ')'
