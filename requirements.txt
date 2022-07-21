@@ -1,9 +1,10 @@
 spafe==0.1.2
 statistics==1.0.3.5
-numpy==1.21.6
+numpy==1.23.1
 SoundFile==0.10.3.post1
 pandas==1.4.3
 tqdm==4.64.0
-matplotlib==3.3.4
+matplotlib==3.5.2
 scikit-learn==1.1.0
-scipy==1.6.2
+scipy==1.8.1
+mutagen==1.45.1

@@ -18,7 +18,7 @@ def freedman_diaconis(values: list) -> int:
         return 50
     return bins
 
-def generate_hist(data: list, method='freedman_diaconis') -> Union[np.ndarray, any]:
+def generate_hist(data: list, method='freedman_diaconis') -> Union[np.ndarray, np.ndarray]:
     bins = 50
     if method == 'freedman_diaconis':
         bins = freedman_diaconis(data)
@@ -27,9 +27,15 @@ def generate_hist(data: list, method='freedman_diaconis') -> Union[np.ndarray, a
     
     hist, bin_edges = np.histogram(data, bins=bins)
     bincenters = 0.5 *(bin_edges[1:] + bin_edges[:-1])
+
+    sum = hist.sum()
+    hist = hist / sum
+
+    #print(hist.sum())
+    #hist = (hist - hist.min())/ (hist.max() - hist.min())
     return  hist, bincenters
 
-def create_curve(values: list, resize=None, method='freedman_diaconis') -> Union[np.ndarray,any, int]:
+def create_curve(values: list, resize=None, method='freedman_diaconis') -> Union[np.ndarray,np.ndarray, int]:
     for idx in range(len(values)):
         if np.isnan(values[idx]):
             values[idx] = 0

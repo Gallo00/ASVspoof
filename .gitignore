@@ -1,3 +1,6 @@
 set_tesi
 __pycache__
 dataset.csv
+data.csv
+missed.csv
+data_20k.csv

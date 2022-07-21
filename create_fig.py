@@ -9,6 +9,12 @@ def clear_plt() -> void:
     plt.clf()
     plt.cla()
     plt.close()
+    name_axes()
+
+def name_axes() -> void:
+    axes = plt.axes()
+    axes.set_ylabel("Occurences (%)")
+    axes.set_xlabel("Values")
 
 def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str,
  y_lims: tuple, x_lims: tuple) -> Union[np.ndarray,int]:
@@ -20,9 +26,7 @@ def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder
 
     col = dataframe[feat].tolist()
     curve,bincenters, lsize = create_curve(col, method=method) 
-    plt.plot(curve,bincenters, color=color)
-    plt.gca().set_ylim(y_lims)
-    plt.gca().set_xlim(x_lims)
+    plt.plot(bincenters,curve, color=color)
 
     plt.savefig('img_feat_' + method + '/' + folder + '/' + feat + '.png')
     return curve, lsize
@@ -39,6 +43,7 @@ def save_fig_double_plot(feat: str, dataframe_bonafide: pd.DataFrame,
 
 
     plt.plot(bincenters_deepfake,curve_deepfake, color='red')
+
     plt.plot(bincenters_bonafide,curve_bonafide, color='blue')
 
     leg_str_deepfake = 'deepfake (' + str(lsize_deepfake) + ')'
