@@ -8,3 +8,4 @@ matplotlib==3.5.2
 scikit-learn==1.1.1
 scipy==1.8.1
 mutagen==1.45.1
+multiprocess==0.70.13
