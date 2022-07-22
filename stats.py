@@ -2,43 +2,20 @@ import pandas as pd
 from constants import FEATURES, SAMPLE_ROWS_STATS
 from tqdm import tqdm 
 from create_fig import clear_plt, save_fig_single_plot, save_fig_double_plot, name_axes
-dataframe = pd.read_csv('data_20k.csv')
+dataframe = pd.read_csv('dataset_n.csv')
 
 dataframe.pop('spectral_variance')
-dataframe.pop('label')
+#dataframe.pop('label')
 # spectral_variance could slow down the script without complete the calc
 
-txt = open("set_tesi/DF-keys-stage-1/keys/CM/trial_metadata.txt",mode='r')
-
-# read lines; each line has <filename> - <label>
-list_lines = txt.readlines()
-
-dict_lines = {}
-for i in range(len(list_lines)):
-    dict_lines[list_lines[i].split(" ")[1] + ".flac"] =  list_lines[i].split(" ")[5]
-
-#print(dict_lines)
-
-#print(dataframe.head())
 
 # split dataframe
-#dataframe_bonafide = dataframe.loc[dataframe['label'] == 'bonafide']
-#dataframe_spoof = dataframe.loc[dataframe['label'] == 'spoof']
-
-dataframe_bonafide = pd.DataFrame(columns=["AUDIO_FILE_NAME"] + FEATURES)
-dataframe_spoof = pd.DataFrame(columns=["AUDIO_FILE_NAME"] + FEATURES)
-
-for k,v in tqdm(dict_lines.items()):
-    if v == "spoof":
-        new_row = dataframe.loc[dataframe['AUDIO_FILE_NAME'] == k]
-        dataframe_spoof = pd.concat([dataframe_spoof,new_row])
-    if v == "bonafide":
-        new_row = dataframe.loc[dataframe['AUDIO_FILE_NAME'] == k]
-        dataframe_bonafide = pd.concat([dataframe_bonafide,new_row])
+dataframe_bonafide = dataframe.loc[dataframe['label'] == 'bonafide']
+dataframe_spoof = dataframe.loc[dataframe['label'] == 'spoof']
 
 #df1_elements = df1.sample(n=4)
-#dataframe_bonafide = dataframe_bonafide.sample(1000)
-#dataframe_spoof = dataframe_spoof.sample(1000)
+dataframe_bonafide = dataframe_bonafide.sample(572)
+dataframe_spoof = dataframe_spoof.sample(572)
 
 name_axes()
 

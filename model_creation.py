@@ -9,7 +9,7 @@ from constants import ROWS_CREATION_MODELS, VARIABLES_TO_DROP, FEATURES
 
 
 def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    data = pd.read_csv('./dataset.csv')
+    data = pd.read_csv('./dataset_n.csv')
     data = data.drop('file',axis=1)
     data = data.drop(VARIABLES_TO_DROP,axis=1)
     data = data.fillna(0)
