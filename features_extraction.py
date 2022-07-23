@@ -53,12 +53,12 @@ packs = [[arr_files_part00, len00, lines00, "Part00","set_tesi/ASVspoof2021_DF_e
 #4: path
 
 # create csv and set the header 
-with open('dataset_n.csv', 'w', newline='') as file:
+with open('dataset_n2.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["file","label"] + FEATURES)
     file.close()
 
-file = open('dataset_n.csv','a+',newline='')
+file = open('dataset_n2.csv','a+',newline='')
 writer = csv.writer(file)
 
 

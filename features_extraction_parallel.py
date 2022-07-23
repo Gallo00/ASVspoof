@@ -29,11 +29,19 @@ def writeCSV(dataset: str, pack):
         row_file.append(arr_row[5])
 
         file_audio = pack[0][i]
-        file_audioR , samplerate = sf.read(pack[4] + file_audio)
+
+        print(row_file[0])
+        """
+        if(row_file[0] != file_audio):
+            print(row_file[0], " ", file_audio)
+            return
+        """
+
+        file_audioR , samplerate = sf.read(pack[4] + row_file[0])
 
         list_features = compute_features(file_audioR,samplerate)
 
-        f = mutagen.File(pack[4] + file_audio)
+        f = mutagen.File(pack[4] + row_file[0])
         bitrate = f.info.bitrate
 
         list_features.append(bitrate)
@@ -48,35 +56,25 @@ def writeCSV(dataset: str, pack):
 def main():
     # open txt
     txt = open("set_tesi/DF-keys-stage-1/keys/CM/trial_metadata.txt",mode='r')
-
-
     # read lines; each line has <filename> - <label>
     list_lines = txt.readlines()
-
 
     # get name of all files 
     arr_files_part00 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac")
     arr_files_part01 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac")
     arr_files_part02 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac")
     arr_files_part03 = os.listdir("set_tesi/ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac")
-
-
-
     #create a list that contains all files
-    arr_files_set = arr_files_part00 + arr_files_part01 + arr_files_part02 + arr_files_part03
-
+    arr_files_set = arr_files_part00 + arr_files_part01 + arr_files_part02 + arr_files_part03 # len arr_files_set: 611829
     len00 = len(arr_files_part00) # 152955
     len01 = len(arr_files_part01) # 152958
     len02 = len(arr_files_part02) # 152958
     len03 = len(arr_files_part03) # 152958
-    # len arr_files_set: 611829
-
     #slice list_lines in 4 sublists (the first has len00 elements)
     lines00 = list_lines[0:len00]
     lines01 = list_lines[len00:(len00 + len01)]
     lines02 = list_lines[(len00 + len01):(len00 + len01 + len02)]
     lines03 = list_lines[(len00 + len01 + len02):(len00 + len01 + len02 + len03)]
-
 
     packs = [[arr_files_part00, len00, lines00, "Part00","set_tesi/ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/"],
             [arr_files_part01, len01, lines01, "Part01","set_tesi/ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/"],
@@ -92,15 +90,15 @@ def main():
     #https://stackoverflow.com/questions/14463277/how-to-disable-python-warnings
 
 
-    cpus = os.cpu_count()
+    cpus = int(os.cpu_count() / 2)
     print(cpus)
     
     
     with Pool(cpus) as pool:
-        pool.starmap(writeCSV, [('datasetPart00.csv',packs[0]),
-                            ('datasetPart01.csv',packs[1]),
-                            ('datasetPart02.csv',packs[2]),
-                            ('datasetPart03.csv',packs[3])])
+        pool.starmap(writeCSV, [('datasetPart00l.csv',packs[0]),
+                            ('datasetPart01l.csv',packs[1]),
+                            ('datasetPart02l.csv',packs[2]),
+                            ('datasetPart03l.csv',packs[3])])
     #print(result)
 
 
