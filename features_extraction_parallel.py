@@ -30,12 +30,6 @@ def writeCSV(dataset: str, pack):
 
         file_audio = pack[0][i]
 
-        print(row_file[0])
-        """
-        if(row_file[0] != file_audio):
-            print(row_file[0], " ", file_audio)
-            return
-        """
 
         file_audioR , samplerate = sf.read(pack[4] + row_file[0])
 
