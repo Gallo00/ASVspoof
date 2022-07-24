@@ -62,6 +62,7 @@ SAMPLE_ROWS_STATS = 10000
 
 ROWS_CREATION_MODELS = 2000
 
+"""
 CLASSIFIERS = [ DecisionTreeClassifier,
         SVC,
         LogisticRegression,
@@ -74,6 +75,9 @@ CLASSIFIERS = [ DecisionTreeClassifier,
         GaussianNB,
         MultinomialNB,
         QuadraticDiscriminantAnalysis
+]
+"""
+CLASSIFIERS = [ GaussianNB
 ]
 
 VARIABLES_TO_DROP = ["bfcc",

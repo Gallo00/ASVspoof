@@ -7,7 +7,7 @@ from constants import CLASSIFIERS
 for classifier in CLASSIFIERS:
     print(classifier.__name__)
     model, acc, cm_display = model_creation(classifier, ['bonafide', 'spoof'])
-    for i in range(4):
+    for i in range(0):
         tmp_model, tmp_acc, tmp_cm_display = model_creation(classifier, ['bonafide', 'spoof'])
         if tmp_acc > acc:
             model = tmp_model
