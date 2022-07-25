@@ -67,6 +67,7 @@ def curve_frr_far(
 
 
 def eer(threshold, frr, far):
+    
     for i in range(len(frr)):
         if np.isnan(frr[i]):
             frr[i] = 0.0
@@ -74,22 +75,27 @@ def eer(threshold, frr, far):
             far[i] = 0.0
         if np.isnan(threshold[i]):
             threshold[i] = 0.0
-        frr[i] = int(frr[i]*100)
-        far[i] = int(far[i]*100)
-        threshold[i] = int(threshold[i]*100)
-
+        dec = 1
+        frr[i] = round(frr[i]*100,dec)
+        far[i] = round(far[i]*100,dec)
+        threshold[i] = round(threshold[i]*100,dec)
+    ith = 0
     for i  in range(len(frr)):
         a = frr[i]
         b = far[i]
         if a == b:
             EER = a
+            ith = i
+            print(ith)
             break
     fig, ax = plt.subplots()
 
     ax.plot(threshold, far, 'r--', label='FAR')
     ax.plot(threshold, frr, 'g--', label='FRR')
     plt.xlabel('Threshold')
-    plt.plot(15,EER,'ro', label='EER') 
+    #How to calculate x of EER?
+    xEER = 40
+    plt.plot(xEER,EER,'ro', label='EER') 
 
 
     legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
