@@ -13,6 +13,7 @@ FN: False Negative
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 def curve_frr_far(
     targets, #list of 0 and 1
@@ -75,26 +76,47 @@ def eer(threshold, frr, far):
             far[i] = 0.0
         if np.isnan(threshold[i]):
             threshold[i] = 0.0
-        dec = 1
+        dec = 10
         frr[i] = round(frr[i]*100,dec)
         far[i] = round(far[i]*100,dec)
         threshold[i] = round(threshold[i]*100,dec)
+    
+    """
+    #first try: intersection
     ith = 0
+    EER = 0.0
+    print(far)
+    print(frr)
     for i  in range(len(frr)):
         a = frr[i]
         b = far[i]
         if a == b:
             EER = a
             ith = i
-            print(ith)
             break
+    """
+
+    #second try: search the couple of nearest numbers
+    EER = sys.float_info.max
+    ith = 0
+    #print(frr)
+    #print(far)
+    for i  in range(len(frr)):
+        a = frr[i]
+        b = far[i]
+        if EER > abs(a-b):
+            #print("frr:",a, "  far:",b)
+            EER = abs(a-b)
+            ith = i
+
     fig, ax = plt.subplots()
 
     ax.plot(threshold, far, 'r--', label='FAR')
     ax.plot(threshold, frr, 'g--', label='FRR')
     plt.xlabel('Threshold')
     #How to calculate x of EER?
-    xEER = 40
+    xEER = round(2*ith/100)
+    #xEER = 40
     plt.plot(xEER,EER,'ro', label='EER') 
 
 

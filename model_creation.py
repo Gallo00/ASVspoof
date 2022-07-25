@@ -1,3 +1,4 @@
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.preprocessing import MinMaxScaler
@@ -22,6 +23,12 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     data = data.drop(VARIABLES_TO_DROP,axis=1)
     data = data.fillna(0)
 
+    data1 = data[data['label'] == 'spoof']
+    data2 = data[data['label'] == 'bonafide']
+
+    #create a balanced situation
+    data = pd.concat([data1.head(300),data2.head(300)],axis=0)
+    
     #data = data.sample(ROWS_CREATION_MODELS)
 
     X = data.copy()
@@ -51,7 +58,11 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     if classifier == SVC:
         model_params["probability"] = True
     model = classifier(**model_params)
-    
+    if classifier == MultinomialNB:
+        scaler = MinMaxScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
+
     model.fit(X_train, Y_train)
     predictions = model.predict(X_test)
     predictions_proba = model.predict_proba(X_test)

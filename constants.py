@@ -7,7 +7,8 @@ from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis 
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sympy import Mul 
 
 FEATURES = ["bfcc",
             "lfcc",
