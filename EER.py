@@ -99,6 +99,7 @@ def eer(threshold: list, frr: list, far: list, show_graph = False) -> float:
     if show_graph:
         _, ax = plt.subplots()
 
+
         ax.plot(threshold, far, 'r--', label='FAR')
         ax.plot(threshold, frr, 'g--', label='FRR')
         plt.xlabel('Threshold')
@@ -111,4 +112,5 @@ def eer(threshold: list, frr: list, far: list, show_graph = False) -> float:
 
         plt.show()
 
-    return eer_y
+    return eer_y, fig
+

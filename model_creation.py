@@ -84,7 +84,7 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     targets = np.asarray(targets)
     bonafide_probabilities = np.asarray(bonafide_probabilities)
     th, frr, far = curve_frr_far(targets=targets, genuine_probabilities=bonafide_probabilities, genuine_label=0)
-    EER = eer(th,frr,far, True)
+    EER, fEER = eer(th,frr,far)
     print("EER:" , EER)
 
     acc = accuracy_score(Y_test, predictions)
@@ -96,13 +96,6 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     print('rec:', rec)
     print('prec:', prec)
 
-    return model, acc, cm_display
+    return model, acc, prec, rec, EER, cm_display, fEER
 
 
-def compute_eer(fpr,tpr,thresholds):
-    """ Returns equal error rate (EER) and the corresponding threshold. """
-    fnr = 1-tpr
-    abs_diffs = np.abs(fpr - fnr)
-    min_index = np.argmin(abs_diffs)
-    eer = np.mean((fpr[min_index], fnr[min_index]))
-    return eer, thresholds[min_index]

@@ -63,13 +63,12 @@ SAMPLE_ROWS_STATS = 10000
 
 ROWS_CREATION_MODELS = 2000
 
-"""
+
 CLASSIFIERS = [ DecisionTreeClassifier,
         SVC,
         LogisticRegression,
         KNeighborsClassifier,
         LinearDiscriminantAnalysis,
-        GaussianProcessClassifier,
         RandomForestClassifier,
         MLPClassifier,
         AdaBoostClassifier,
@@ -77,12 +76,13 @@ CLASSIFIERS = [ DecisionTreeClassifier,
         MultinomialNB,
         QuadraticDiscriminantAnalysis
 ]
-"""
-CLASSIFIERS = [ GaussianNB
-]
+
+
 
 VARIABLES_TO_MANTAIN = [
         "bit_rate",
         "meanfun",
-        "mindom"
+        "mindom",
+        "meandom",
+        "zcr"
 ]
