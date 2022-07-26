@@ -1,4 +1,4 @@
-#https://stackoverflow.com/questions/30503766/how-can-i-calculate-the-failed-acceptance-rate-and-false-recognition-rate
+# https://stackoverflow.com/questions/30503766/how-can-i-calculate-the-failed-acceptance-rate-and-false-recognition-rate
 """
 FAR = FP / (FP + TN)
 FRR = FN / (FN + TP)
@@ -67,62 +67,50 @@ def curve_frr_far(
     return thresholds, frr, far
 
 
-def eer(threshold, frr, far):
+def eer(threshold: list, frr: list, far: list, show_graph = False) -> float:
     
     for i in range(len(frr)):
         if np.isnan(frr[i]):
             frr[i] = 0.0
+
         if np.isnan(far[i]):
             far[i] = 0.0
+
         if np.isnan(threshold[i]):
             threshold[i] = 0.0
+
         dec = 10
-        frr[i] = round(frr[i]*100,dec)
-        far[i] = round(far[i]*100,dec)
-        threshold[i] = round(threshold[i]*100,dec)
-    
-    """
-    #first try: intersection
-    ith = 0
-    EER = 0.0
-    print(far)
-    print(frr)
+        frr[i] = round(frr[i] * 100, dec)
+        far[i] = round(far[i] * 100, dec)
+        threshold[i] = round(threshold[i] * 100, dec)
+
+    eer_y = sys.float_info.max
+    eer_x = 0
+
     for i  in range(len(frr)):
-        a = frr[i]
-        b = far[i]
-        if a == b:
-            EER = a
-            ith = i
-            break
-    """
+        _frr = frr[i]
+        _far = far[i]
 
-    #second try: search the couple of nearest numbers
-    EER = sys.float_info.max
-    ith = 0
-    #print(frr)
-    #print(far)
-    for i  in range(len(frr)):
-        a = frr[i]
-        b = far[i]
-        if EER > abs(a-b):
-            #print("frr:",a, "  far:",b)
-            EER = abs(a-b)
-            ith = i
+        candidate_y = abs(_frr - _far)
+        if eer_y > candidate_y:
+            eer_y = candidate_y
+            eer_x = threshold[i]
 
-    fig, ax = plt.subplots()
-
-    ax.plot(threshold, far, 'r--', label='FAR')
-    ax.plot(threshold, frr, 'g--', label='FRR')
-    plt.xlabel('Threshold')
-    #How to calculate x of EER?
-    xEER = ith / ((len(frr)-1) / 100)
-    #xEER = 40
-    plt.plot(xEER,EER,'ro', label='EER') 
+    if show_graph:
+        _, ax = plt.subplots()
 
 
-    legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
+        ax.plot(threshold, far, 'r--', label='FAR')
+        ax.plot(threshold, frr, 'g--', label='FRR')
+        plt.xlabel('Threshold')
+        plt.plot(eer_x, eer_y, 'ro', label='EER') 
 
-    # Put a nicer background color on the legend.
-    legend.get_frame().set_facecolor('C0')
+        legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
 
-    return EER, fig
+        # Put a nicer background color on the legend.
+        legend.get_frame().set_facecolor('C0')
+
+        plt.show()
+
+    return eer_y, fig
+
