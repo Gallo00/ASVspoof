@@ -19,15 +19,15 @@ dataframe_bonafide = dataframe.loc[dataframe['label'] == 'bonafide']
 dataframe_spoof = dataframe.loc[dataframe['label'] == 'spoof']
 
 #df1_elements = df1.sample(n=4)
-SAMPLES = 251
-dataframe_bonafide = dataframe_bonafide.sample(SAMPLES)
-dataframe_spoof = dataframe_spoof.sample(SAMPLES)
+#SAMPLES = 5000
+#dataframe_bonafide = dataframe_bonafide.sample(SAMPLES)
+#dataframe_spoof = dataframe_spoof.sample(SAMPLES)
 
 name_axes()
 
 methods = ['freedman_diaconis','knuth']
 
-#methods = ['freedman_diaconis']
+methods = ['freedman_diaconis']
 #methods = ['knuth']
 for method in methods:
     print(method)

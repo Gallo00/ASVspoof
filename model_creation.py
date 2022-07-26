@@ -1,3 +1,4 @@
+from tkinter import Variable
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -7,9 +8,12 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, confu
 import pandas as pd
 import numpy as np
 from typing import Union
-from constants import ROWS_CREATION_MODELS, VARIABLES_TO_DROP, FEATURES
+from constants import ROWS_CREATION_MODELS, FEATURES, VARIABLES_TO_MANTAIN
 from EER import curve_frr_far, eer
 
+def intersection(lst1, lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3
 
 def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     data1 = pd.read_csv('./datasetPart00l.csv')
@@ -20,14 +24,15 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     data = pd.concat([data1,data2,data3,data4], axis=0)
 
     data = data.drop('file',axis=1)
-    data = data.drop(VARIABLES_TO_DROP,axis=1)
+    #data = data.drop(VARIABLES_TO_DROP,axis=1)
+    data = data[['label'] + VARIABLES_TO_MANTAIN]
     data = data.fillna(0)
 
     data1 = data[data['label'] == 'spoof']
     data2 = data[data['label'] == 'bonafide']
 
     #create a balanced situation
-    data = pd.concat([data1.head(300),data2.head(300)],axis=0)
+    data = pd.concat([data1.head(10000),data2.head(10000)],axis=0)
     
     #data = data.sample(ROWS_CREATION_MODELS)
 
