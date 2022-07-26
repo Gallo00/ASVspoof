@@ -97,7 +97,7 @@ def eer(threshold: list, frr: list, far: list, show_graph = False) -> float:
             eer_x = threshold[i]
 
     if show_graph:
-        _, ax = plt.subplots()
+        fig, ax = plt.subplots()
 
 
         ax.plot(threshold, far, 'r--', label='FAR')
