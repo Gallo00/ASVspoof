@@ -96,20 +96,20 @@ def eer(threshold: list, frr: list, far: list, show_graph = False) -> float:
             eer_y = candidate_y
             eer_x = threshold[i]
 
+    fig, ax = plt.subplots()
+
+
+    ax.plot(threshold, far, 'r--', label='FAR')
+    ax.plot(threshold, frr, 'g--', label='FRR')
+    plt.xlabel('Threshold')
+    plt.plot(eer_x, eer_y, 'ro', label='EER') 
+
+    legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
+
+    # Put a nicer background color on the legend.
+    legend.get_frame().set_facecolor('C0')
+    
     if show_graph:
-        fig, ax = plt.subplots()
-
-
-        ax.plot(threshold, far, 'r--', label='FAR')
-        ax.plot(threshold, frr, 'g--', label='FRR')
-        plt.xlabel('Threshold')
-        plt.plot(eer_x, eer_y, 'ro', label='EER') 
-
-        legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
-
-        # Put a nicer background color on the legend.
-        legend.get_frame().set_facecolor('C0')
-
         plt.show()
 
     return eer_y, fig

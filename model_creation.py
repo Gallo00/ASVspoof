@@ -49,13 +49,6 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     [BONAFIDE, SPOOF] = labels
     X_train, X_test, Y_train, Y_test = get_training_test_sets()
 
-    #scale data
-    """
-    scaler = MinMaxScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-    """
-
     # set neighbors to 2 if the classifier is KNN
     model_params = {}
     if classifier == KNeighborsClassifier:
