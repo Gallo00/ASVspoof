@@ -115,7 +115,7 @@ def eer(threshold, frr, far):
     ax.plot(threshold, frr, 'g--', label='FRR')
     plt.xlabel('Threshold')
     #How to calculate x of EER?
-    xEER = round(2*ith/100)
+    xEER = ith / ((len(frr)-1) / 100)
     #xEER = 40
     plt.plot(xEER,EER,'ro', label='EER') 
 
@@ -125,5 +125,4 @@ def eer(threshold, frr, far):
     # Put a nicer background color on the legend.
     legend.get_frame().set_facecolor('C0')
 
-    plt.show()
-    return EER
+    return EER, fig
