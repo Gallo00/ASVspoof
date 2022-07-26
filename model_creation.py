@@ -84,7 +84,7 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     targets = np.asarray(targets)
     bonafide_probabilities = np.asarray(bonafide_probabilities)
     th, frr, far = curve_frr_far(targets=targets, genuine_probabilities=bonafide_probabilities, genuine_label=0)
-    EER = eer(th,frr,far)
+    EER = eer(th,frr,far, True)
     print("EER:" , EER)
 
     acc = accuracy_score(Y_test, predictions)
