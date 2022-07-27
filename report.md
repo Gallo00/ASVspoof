@@ -15,9 +15,9 @@ In quanto i file sono approssimativamente 600.000 si è deciso di parallelizzare
 Lo script che esegue lo stesso lavoro di features_extraction.py ma parallelizzando è features_extraction_parallel.py.
 
 Note
--Alcune features non sono semplici numeri, sono degli nd array (esempio: bfcc), si è optato per applicare la media, quindi alla fin fine le features che dovrebbero essere nd array saranno semplici numeri
--Stesso discorso vale per quelle features che sarebbero rappresentate tramite tuple, liste
--Eventuali features che sarebbero dei numeri complessi sono state convertite in float tramite la funzione abs() di python
+- Alcune features non sono semplici numeri, sono degli nd array (esempio: bfcc), si è optato per applicare la media, quindi alla fin fine le features che dovrebbero essere nd array saranno semplici numeri
+- Stesso discorso vale per quelle features che sarebbero rappresentate tramite tuple, liste
+- Eventuali features che sarebbero dei numeri complessi sono state convertite in float tramite la funzione abs() di python
 
 ### Estrazione grafici delle features
 Lo strumento utilizzato per creare i grafici è stato matplotlib insieme ad alcune funzionalità di numpy.
