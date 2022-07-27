@@ -76,11 +76,12 @@ for pack in packs:
         row_file.append(arr_row[5])
 
         file_audio = pack[0][i]
-        file_audioR , samplerate = sf.read(pack[4] + file_audio)
+        
+        file_audioR , samplerate = sf.read(pack[4] + row_file[0])
 
-        list_features = compute_features(file_audioR,samplerate)
+        list_features = compute_features(file_audioR, samplerate)
 
-        f = mutagen.File(pack[4] + file_audio)
+        f = mutagen.File(pack[4] + row_file[0])
         bitrate = f.info.bitrate
 
         list_features.append(bitrate)
