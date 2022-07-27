@@ -1,0 +1,5 @@
+accuracy: 0.694
+accuracy_per_class: 0.4316580500233838
+precision: 0.7267822736030829
+recall: 0.6259541984732825
+EER: 0.153

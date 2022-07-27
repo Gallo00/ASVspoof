@@ -8,12 +8,9 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, confu
 import pandas as pd
 import numpy as np
 from typing import Union
-from constants import ROWS_CREATION_MODELS, FEATURES, VARIABLES_TO_MANTAIN
-from EER import curve_frr_far, eer
+from constants import ROWS_CREATION_MODELS, VARIABLES_TO_MANTAIN
+from metrics_eer_accperclass import compute_eer, compute_accperclass
 
-def intersection(lst1, lst2):
-    lst3 = [value for value in lst1 if value in lst2]
-    return lst3
 
 def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     data1 = pd.read_csv('./datasetPart00l.csv')
@@ -32,9 +29,8 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     data2 = data[data['label'] == 'bonafide']
 
     #create a balanced situation
-    data = pd.concat([data1.head(10000),data2.head(10000)],axis=0)
-    
-    #data = data.sample(ROWS_CREATION_MODELS)
+    ROWS = 10000
+    data = pd.concat([data1.sample(ROWS),data2.sample(ROWS)],axis=0)
 
     X = data.copy()
     X = X.drop('label',axis=1)
@@ -63,6 +59,8 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
 
     model.fit(X_train, Y_train)
     predictions = model.predict(X_test)
+
+    """
     predictions_proba = model.predict_proba(X_test)
 
     bonafide_probabilities = []
@@ -79,16 +77,28 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     th, frr, far = curve_frr_far(targets=targets, genuine_probabilities=bonafide_probabilities, genuine_label=0)
     EER, fEER = eer(th,frr,far)
     print("EER:" , EER)
+    """
 
     acc = accuracy_score(Y_test, predictions)
     rec = recall_score(Y_test, predictions, pos_label=BONAFIDE)
     prec = precision_score(Y_test, predictions, pos_label=BONAFIDE)
     conf_matrix = confusion_matrix(Y_test,predictions)
+    #get TP etc. to calculate EER
+    TP = conf_matrix[0][0]
+    FN = conf_matrix[0][1]
+    FP = conf_matrix[1][0]
+    TN = conf_matrix[1][1]
+    EER = compute_eer(TP, FN, FP, TN)
+    print("EER:",EER)
+
+    acc_per_class = compute_accperclass(TP, FN, FP, TN)
+
     cm_display = ConfusionMatrixDisplay(confusion_matrix = conf_matrix, display_labels = [BONAFIDE, SPOOF])
     print('acc:', acc)
+    print('acc_per_class', acc_per_class)
     print('rec:', rec)
     print('prec:', prec)
 
-    return model, acc, prec, rec, EER, cm_display, fEER
+    return model, acc, acc_per_class, prec, rec, EER, cm_display
 
 
