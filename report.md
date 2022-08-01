@@ -69,5 +69,7 @@ Viene preso in considerazione il modello con l'EER più vicino alla media
 | **QuadraticDiscriminantAnalysis** |0.15341666666666667      |0.6931666666666667         |0.6929182546472739       |0.7253825029423303       |0.6183946488294314         |
 
 Guardando la tabella con attenzione si nota che il modello di classificazione che si è dimostrato migliore dopo il testing è RandomForestClassifier con un EER pari a 0.118. <br>
-Invece il modello peggiore è stato MLPClassifier con un EER pari a 0.24625, inoltre guardando i valori delle altre metriche di questo modello si notano valori insoliti sicuramente dovuti a problemi di imprecisione.
+Invece il modello peggiore è stato MLPClassifier con un EER pari a 0.24625, inoltre guardando i valori delle altre metriche di questo modello si notano valori insoliti sicuramente dovuti a problemi di imprecisione. <br>
+Si riporta la confusion matrix di RandomForestClassifier <br>
+![RFC_conf_matrix](./models/RandomForestClassifier/mean/conf_matrix.png)
 

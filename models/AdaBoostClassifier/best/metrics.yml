@@ -1,5 +1,6 @@
+EER: 0.1485
 accuracy: 0.703
 accuracy_per_class: 0.7029623696290364
 precision: 0.7190768121168409
 recall: 0.665331998665332
-EER: 0.1485
+

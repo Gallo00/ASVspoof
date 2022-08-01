@@ -11,6 +11,10 @@ REC_INDEX = 4
 EER_INDEX = 5
 CM_DISPLAY_INDEX = 6
 
+lines_md = []
+lines_md.append("|Model|EER|Accuracy|Accuracy per class|Precision|Recall|")
+lines_md.append("|-------------------------------|-----------|------------|--------------------|-----------|------------|")
+
 
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
@@ -19,16 +23,21 @@ def save_files(model: list, type: str) -> None:
 
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {
+        "EER": model[EER_INDEX],
         "accuracy": model[ACC_INDEX],
         "accuracy_per_class": model[ACC_PER_CLASS_INDEX],
         "precision": model[PREC_INDEX],
-        "recall": model[REC_INDEX],
-        "EER": model[EER_INDEX]
+        "recall": model[REC_INDEX]
     }
     with open(model_path + '/metrics.yml', 'w') as f: 
         for key, value in metrics.items(): 
             f.write('%s: %s\n' % (key, value))
 
+    if type == 'mean':
+        line_md = "| **" + classifier.__name__ + "** "
+        for k, v in metrics.items():
+            line_md += "|" + str(v)
+        lines_md.append(line_md + "|")
     pickle.dump(model[MOD_INDEX], open(model_path + '/model.pkl', 'wb'))
 
 
@@ -78,6 +87,9 @@ for classifier in CLASSIFIERS:
 
     # SAVE WORST MODEL 
     save_files(worst_model, 'worst')
+
+for l in lines_md:
+    print(l)
 
 
 
