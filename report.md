@@ -42,8 +42,32 @@ Si riportano ora 2 esempi di features dove le 2 distribuzioni si comportano nell
 Lo stesso comportamento viene assunto per le altre features
 
 ### Creazione del modello
-Estratte le features e ottenuti i grafici per comprenderne il comportamento si è passati alla creazione di modelli di classificazione offerti da sklearn per ottenere un tool in grado di distinguere tra audio con voce reale e audio con voce sintetica.
-Considerando i risultati non soddisfacenti ottenuti nella creazione dei grafici è facile prevedere che anche i risultati ottenuti allenando i modelli di classificazione non saranno soddisfacenti.
-Dai grafici ottenuti precedentemente si è potuta fare una selezione delle features preliminarmente all'allenamento del modello, sono state scartate tutte le features eccetto le 5 che mostravano 2 distribuzioni leggermente diverse.
-I modelli allenati sono stati i seguenti: DecisionTreeClassifier, SVC, LogisticRegression, KNeighborsClassifier, LinearDiscriminantAnalysis, RandomForestClassifier, MLPClassifier, AdaBoostClassifier, GaussianNB, MultinomialNB e QuadraticDiscriminantAnalysis.
+Estratte le features e ottenuti i grafici per comprenderne il comportamento si è passati all'allenamento di modelli di classificazione offerti da sklearn per ottenere un tool in grado di distinguere tra audio con voce reale e audio con voce sintetica. <br>
+Considerando i risultati non soddisfacenti ottenuti nella creazione dei grafici è facile prevedere che anche i risultati ottenuti allenando i modelli di classificazione non saranno soddisfacenti. <br>
+Dai grafici ottenuti precedentemente si è potuta fare una selezione delle features preliminarmente all'allenamento del modello, sono state scartate tutte le features eccetto le 5 che mostravano 2 distribuzioni leggermente diverse. <br>
+I modelli allenati sono stati i seguenti: DecisionTreeClassifier, SVC, LogisticRegression, KNeighborsClassifier, LinearDiscriminantAnalysis, RandomForestClassifier, MLPClassifier, AdaBoostClassifier, GaussianNB, MultinomialNB e QuadraticDiscriminantAnalysis. <br>
+
+### Risultati del training
+Vengono mostrati i valori delle metriche memorizzate ottenuti dopo aver testato il modello
+Le matriche sono: EER, accuracy, accuracy per class, precision e recall.
+Il modello viene trainato per 10 volte.
+Viene preso in considerazione il modello con l'EER più vicino alla media
+
+
+| Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
+|-------------------------------|-----------|------------|--------------------|-----------|------------|
+| **DecisionTreeClassifier**        |0.15775  |0.6845 |0.6845229464069935  |0.6883814640698456 |0.6799336650082919|
+| **SVC**                            |0.16375 |0.6725|0.6718084484030866 |0.7507360157016683 |0.5122196183461667
+| **LogisticRegression**            |0.20833333333333331|0.5833333333333334|0.5832130519714382|0.5801709401709402|0.5715729201751432
+| **KNeighborsClassifier**          |0.20541666666666666      |0.5891666666666666|0.5930223925054816|0.5558381502890174|0.8154681139755766         |
+| **LinearDiscriminantAnalysis**    |0.16175      |0.6765 |0.676597707591402       |0.6881153305203939       |0.649950182663567         |
+| **RandomForestClassifier**       |0.118 |0.764      |0.7640407153327835         |0.7744049672300793       |0.7465912869970069  |
+| **MLPClassifier**                 |0.24625|0.5075      |0.5         |0.0       |0.0         |
+| **AdaBoostClassifier**            |0.15275      |0.6945         |0.6950213371266003       |0.7170082704063286       |0.655921052631579         |
+| **GaussianNB**                    |0.15933333333333333      |0.6813333333333333         |0.6812347249388997       |0.7002220577350111       |0.6319305277221109         |
+| **MultinomialNB**                 |0.19574999999999998      |0.6085         |0.6085675263422691       |0.5979412655161974       |0.6592122830440588         |
+| **QuadraticDiscriminantAnalysis** |0.15341666666666667      |0.6931666666666667         |0.6929182546472739       |0.7253825029423303       |0.6183946488294314         |
+
+Guardando la tabella con attenzione si nota che il modello di classificazione che si è dimostrato migliore dopo il testing è RandomForestClassifier con un EER pari a 0.118. 
+Invece il modello peggiore è stato MLPClassifier con un EER pari a 0.24625, inoltre guardando i valori delle altre metriche di questo modello si notano valori insoliti sicuramente dovuti a problemi di imprecisione.
 

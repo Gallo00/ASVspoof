@@ -6,7 +6,8 @@ def compute_eer(TP: int, FN: int, FP: int, TN: int) -> float:
 
 def compute_accperclass(TP: int, FN: int, FP: int, TN: int) -> float:
     TPR = TP/(TP+FN)
-    FPR = FP/(FP+TN)
-    ACC_CLASS = (TPR + FPR) / 2
+    TNR = TN /(TN + FP)
+    
+    ACC_CLASS = (TPR + TNR) / 2
     return ACC_CLASS
     
