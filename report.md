@@ -53,23 +53,36 @@ Le metriche sono: EER, accuracy, accuracy per class, precision e recall. <br>
 Il modello viene trainato e testato per 10 volte. <br>
 Viene preso in considerazione il modello con l'EER più vicino alla media
 
+Nota
+- I risultati sono approssimati alla quarta cifra decimale
 
-| Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
-|-------------------------------|-----------|------------|--------------------|-----------|------------|
-| **DecisionTreeClassifier**        |0.15775  |0.6845 |0.6845229464069935  |0.6883814640698456 |0.6799336650082919|
-| **SVC**                            |0.16375 |0.6725|0.6718084484030866 |0.7507360157016683 |0.5122196183461667
-| **LogisticRegression**            |0.20833333333333331|0.5833333333333334|0.5832130519714382|0.5801709401709402|0.5715729201751432
-| **KNeighborsClassifier**          |0.20541666666666666      |0.5891666666666666|0.5930223925054816|0.5558381502890174|0.8154681139755766         |
-| **LinearDiscriminantAnalysis**    |0.16175      |0.6765 |0.676597707591402       |0.6881153305203939       |0.649950182663567         |
-| **RandomForestClassifier**       |0.118 |0.764      |0.7640407153327835         |0.7744049672300793       |0.7465912869970069  |
-| **MLPClassifier**                 |0.24625|0.5075      |0.5         |0.0       |0.0         |
-| **AdaBoostClassifier**            |0.15275      |0.6945         |0.6950213371266003       |0.7170082704063286       |0.655921052631579         |
-| **GaussianNB**                    |0.15933333333333333      |0.6813333333333333         |0.6812347249388997       |0.7002220577350111       |0.6319305277221109         |
-| **MultinomialNB**                 |0.19574999999999998      |0.6085         |0.6085675263422691       |0.5979412655161974       |0.6592122830440588         |
-| **QuadraticDiscriminantAnalysis** |0.15341666666666667      |0.6931666666666667         |0.6929182546472739       |0.7253825029423303       |0.6183946488294314         |
+| Model                             | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
+|-----------------------------------|-----------|------------|--------------------|-----------|------------|
+| **DecisionTreeClassifier**        |0.1578     |0.6845      |0.6845              |0.6884     |0.6799      |
+| **SVC**                           |0.1638     |0.6725      |0.6718              |0.7507     |0.5122      |
+| **LogisticRegression**            |0.2083     |0.5833      |0.5832              |0.5802     |0.5716      |
+| **KNeighborsClassifier**          |0.2054     |0.5891      |0.5930              |0.5558     |0.8155      |
+| **LinearDiscriminantAnalysis**    |0.1618     |0.6765      |0.6766              |0.6881     |0.65        |
+| **RandomForestClassifier**        |0.118      |0.764       |0.7640              |0.7744     |0.7466      |
+| **MLPClassifier**                 |0.2463     |0.5075      |0.5                 |0.0        |0.0         |
+| **AdaBoostClassifier**            |0.1528     |0.6945      |0.6950              |0.7170     |0.6560      |
+| **GaussianNB**                    |0.1593     |0.6813      |0.6812              |0.7002     |0.6320      |
+| **MultinomialNB**                 |0.1957     |0.6085      |0.6086              |0.5979     |0.6592      |
+| **QuadraticDiscriminantAnalysis** |0.1534     |0.6932      |0.6929              |0.7253     |0.6184      |
 
 Guardando la tabella con attenzione si nota che il modello di classificazione che si è dimostrato migliore dopo il testing è RandomForestClassifier con un EER pari a 0.118. <br>
 Invece il modello peggiore è stato MLPClassifier con un EER pari a 0.24625, inoltre guardando i valori delle altre metriche di questo modello si notano valori insoliti sicuramente dovuti a problemi di imprecisione. <br>
 Si riporta la confusion matrix di RandomForestClassifier <br>
 ![RFC_conf_matrix](./models/RandomForestClassifier/mean/conf_matrix.png)
 
+### Classificatore Naive
+Oltre ai classici modelli offerti dalla libreria sklearn si è optato per costruire un classificatore naive basato sulla feature bit_rate <br>
+Il classificatore molto banalmente calcola una soglia ideale e assegna una certa label in base a se il valore del bit_rate è maggiore o è minore della soglia. <br>
+Il metodo usato per calcolare la soglia è il <a href="https://compbio.soe.ucsc.edu/genex/genexTR2html/node12.html">discriminante di Fisher</a>, calcolato il valore di soglia il classificatore si comporta come un banale if-else
+
+### Risultati e Metriche del classificatore Naive
+Come prima mostriamo i risultati ottenuti dopo il training e l'allenamento del modello. <br>
+In questo caso possiamo immaginare il training come se fosse il calcolo del discriminante di Fisher <br>
+| Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
+|-------------------------------|-----------|------------|--------------------|-----------|------------|
+| **Naive**                     |0.2468     |0.5064      |0.5064              |1.0        |0.0129      |

@@ -36,7 +36,7 @@ def save_files(model: list, type: str) -> None:
     if type == 'mean':
         line_md = "| **" + classifier.__name__ + "** "
         for k, v in metrics.items():
-            line_md += "|" + str(v)
+            line_md += "|" + str(round(v,4))
         lines_md.append(line_md + "|")
     pickle.dump(model[MOD_INDEX], open(model_path + '/model.pkl', 'wb'))
 

@@ -60,25 +60,6 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
     model.fit(X_train, Y_train)
     predictions = model.predict(X_test)
 
-    """
-    predictions_proba = model.predict_proba(X_test)
-
-    bonafide_probabilities = []
-    for couple in predictions_proba:
-        bonafide_probabilities.append(couple[0])
-    targets = []
-    for pred in predictions:
-        if pred == 'bonafide':
-            targets.append(0)
-        else:
-            targets.append(1)
-    targets = np.asarray(targets)
-    bonafide_probabilities = np.asarray(bonafide_probabilities)
-    th, frr, far = curve_frr_far(targets=targets, genuine_probabilities=bonafide_probabilities, genuine_label=0)
-    EER, fEER = eer(th,frr,far)
-    print("EER:" , EER)
-    """
-
     acc = accuracy_score(Y_test, predictions)
     rec = recall_score(Y_test, predictions, pos_label=BONAFIDE)
     prec = precision_score(Y_test, predictions, pos_label=BONAFIDE)
