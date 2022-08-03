@@ -75,15 +75,23 @@ Invece il modello peggiore è stato MLPClassifier con un EER pari a 0.24625, ino
 Si riporta la confusion matrix di RandomForestClassifier <br>
 ![RFC_conf_matrix](./models/RandomForestClassifier/mean/conf_matrix.png)
 
-### Classificatore Naive
-Oltre ai classici modelli offerti dalla libreria sklearn si è optato per costruire un classificatore naive basato sulla feature bit_rate <br>
-Il classificatore molto banalmente prima calcola il valore medio del bit_rate sia per gli audio spoof sia per gli audio bonafide, successivamente per classificare un'osservazione calcolerà la distanza del corrispondente bit_rate dalle 2 medie.<br>
+### Classificatori Naive
+Oltre ai classici modelli offerti dalla libreria sklearn si è optato per costruire 2 classificatori naive basati sulla feature bit_rate <br>
+Il primo classificatore molto banalmente prima calcola il valore medio del bit_rate sia per gli audio spoof sia per gli audio bonafide, successivamente per classificare un'osservazione calcolerà la distanza del corrispondente bit_rate dalle 2 medie.<br>
 Verrà assegnata la label corrispondente alla media più vicina. <br>
-Ad esempio se le 2 medie fossero 1.2 per spoof e 3.1 per bonafide e l'osservazione avesse bit_rate pari a 2.5 la label assegnata sarebbe bonafide.
+Ad esempio se le 2 medie fossero 1.2 per spoof e 3.1 per bonafide e l'osservazione avesse bit_rate pari a 2.5 la label assegnata sarebbe bonafide. <br>
+Il secondo classificatore invece cerca di trovare un valore idoneo per una soglia, trovata la soglia il classificatore si comporterà semplicemente come un if-else, cioè se la feature dell'osservazione supera la soglia viene assegnata classe X altrimenti classe Y. <br>
+Per trovare una soglia vicina all'ideale molto semplicemente si è suddiviso lo spazio tra il valore minimo e massimo della feature per 100 e si sono poi provate 100 soglie, viene presa in considerazione la soglia il cui relativo EER è il più basso. <br>
+Ad esempio se il valore minimo fosse 70.000 e il massimo fosse 210.000, si dovrebbe calcolare (210000 - 70000)/100 che risulta 1400. <br>
+Le soglie che verranno provate sono: 70.000, 71.400, 72.800 ..., 208.600, 210.000, la soglia con l'EER più basso sarà considerata la soglia ideale. <br>
+Nota
+- se si volesse trovare un valore ancora più accurato come soglia basterebbe usare un valore più alto di 100
 
-### Risultati e Metriche del classificatore Naive
+### Risultati e Metriche dei classificatore Naive
 Come prima mostriamo i risultati ottenuti dopo il training e l'allenamento del modello. <br>
-In questo caso possiamo immaginare il training come se fosse il calcolo delle 2 medie <br>
+Per il primo classificatore possiamo immaginare il training come se fosse il calcolo delle 2 medie, mentre per il secondo classificatore non vi è una sorta di allenamento, è una successione di tentativi mirati a cercare il valore ideale per la soglia <br>
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
-| **Naive**                     |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
+| **Naive_mean**                |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
+| **Naive_th**                  |0.1628     |0.6744      |0.6744              |0.7448     |0.5308      |
+ 

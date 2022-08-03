@@ -7,25 +7,19 @@ import matplotlib.pyplot as plt
 BONAFIDE = 'bonafide'
 SPOOF = 'spoof'
 
-ACC_INDEX = 0
-ACC_PER_CLASS_INDEX = 1
-PREC_INDEX = 2
-REC_INDEX = 3
-EER_INDEX = 4
-CM_DISPLAY_INDEX = 5
+TH_INDEX = 0
+ACC_INDEX = 1
+ACC_PER_CLASS_INDEX = 2
+PREC_INDEX = 3
+REC_INDEX = 4
+EER_INDEX = 5
+CM_DISPLAY_INDEX = 6
 
-"""
-def normalize(population, var):
-    column = var
-    pd.options.mode.chained_assignment = None 
-    population[column] = (population[column] - population[column].min()) / (population[column].max() - population[column].min())
-    return population
-"""
 
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
 
-    model_path = './models/Naive_mean/' + type 
+    model_path = './models/Naive_th/' + type 
 
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {
@@ -38,9 +32,13 @@ def save_files(model: list, type: str) -> None:
     with open(model_path + '/metrics.yml', 'w') as f: 
         for key, value in metrics.items(): 
             f.write('%s: %s\n' % (key, value))
+    
+    with open(model_path + '/th.yml', 'w') as f:  
+        f.write('%s: %s\n' % ('threshold', model[TH_INDEX]))
+    
 
-    if type == 'mean':
-        line_md = "| **Naive_mean** "
+    if type == 'best':
+        line_md = "| **Naive_th** "
         for k, v in metrics.items():
             line_md += "|" + str(round(v,4))
         print(line_md + " |")
@@ -63,47 +61,30 @@ data_var = data_var.fillna(0)
 data_spoof = data_var[data['label'] == 'spoof']
 data_bonafide = data_var[data['label'] == 'bonafide']
 
-# normalize
-#data_spoof = normalize(data_spoof)
-#data_bonafide = normalize(data_bonafide)
 
+threshold_tries = 100
+
+increment_th = (data_var[var].max() - data_var[var].min())/threshold_tries
+threshold = data_var[var].min()
 
 naive_models = []
 
-for i in range(10):
+for i in range(threshold_tries):
     ROWS = 10000
+    print(threshold)
     data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0)
 
     var_spoof = data_spoof[var].to_numpy() 
     var_bonafide = data_bonafide[var].to_numpy()
 
-    #threshold = fisher_criterion(var_spoof, var_bonafide)
-    #print(threshold)
 
     data_var.insert(2,'pred_label','')
-    #print(data)
 
     data_var.reset_index(inplace = True, drop = True)
 
-    """
-    # let's classify
-    for i in range(len(data_var)): 
-        if data_var.loc[i, var] > threshold:
-            data_var.loc[i, 'pred_label'] = 'bonafide'
-        else:
-            data_var.loc[i, 'pred_label'] = 'spoof'
-    """
-    mean_bonafide = var_bonafide.mean()
-    mean_spoof = var_spoof.mean()
-
-    #print(mean_bonafide)
-    #print(mean_spoof)
-
     for i in range(len(data_var)):
-        dist_spoof = abs(data_var.loc[i, var] - mean_spoof)
-        dist_bonafide = abs(data_var.loc[i, var] - mean_bonafide)
 
-        if dist_spoof < dist_bonafide:
+        if data_var.loc[i, var] > threshold:
             data_var.loc[i, 'pred_label'] = 'spoof'
         else:
             data_var.loc[i, 'pred_label'] = 'bonafide'
@@ -132,9 +113,9 @@ for i in range(10):
     print('rec:', rec)
     print('prec:', prec)
 
-    #mod = [threshold, acc, acc_per_class, prec, rec, EER, cm_display]
-    mod = [acc, acc_per_class, prec, rec, EER, cm_display]
+    mod = [threshold, acc, acc_per_class, prec, rec, EER, cm_display]
     naive_models.append(mod)
+    threshold = threshold + increment_th
 
 
 # calculate the mean of EER
@@ -144,31 +125,34 @@ for mod in naive_models:
 mean_eer = mean_eer / len(naive_models)
 
 # search the best, worst and mean model
-best = naive_models[0]
-mean = naive_models[0]
-worst = naive_models[0]
+best_th = naive_models[0]
+mean_th = naive_models[0]
+worst_th = naive_models[0]
 
-dist = abs(mean[EER_INDEX] - mean_eer)
+dist = abs(mean_th[EER_INDEX] - mean_eer)
 
 for mod in naive_models:
-    if mod[EER_INDEX] < best[EER_INDEX]:
-        best = mod
-    elif mod[EER_INDEX] > worst[EER_INDEX]:
-        worst = mod
+    if mod[EER_INDEX] < best_th[EER_INDEX]:
+        best_th = mod
+    elif mod[EER_INDEX] > worst_th[EER_INDEX]:
+        worst_th = mod
 
-    dist_actual = abs(mod[EER_INDEX] - mean_eer)
-    if dist_actual < dist:
-        dist = dist_actual
-        mean = mod
+    dist_actual_th = abs(mod[EER_INDEX] - mean_eer)
+    if dist_actual_th < dist:
+        dist = dist_actual_th
+        mean_th = mod
 
 # SAVE BEST MODEL
-save_files(best, 'best')
+save_files(best_th, 'best')
 
-# SAVE MEAN MODEL 
-save_files(mean, 'mean')
+# SAVE BEST MODEL
+save_files(mean_th, 'mean')
 
-# SAVE WORST MODEL 
-save_files(worst, 'worst')
+# SAVE BEST MODEL
+save_files(worst_th, 'worst')
+
+
+
 
 
 
