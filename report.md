@@ -88,7 +88,7 @@ Nota
 - se si volesse trovare un valore ancora più accurato come soglia basterebbe usare un valore più alto di 100
 
 ### Risultati e Metriche dei classificatori Naive
-Come prima mostriamo i risultati ottenuti dopo il training e l'allenamento del modello. <br>
+Come prima mostriamo i risultati ottenuti dopo il training e il testing del modello. <br>
 Per il primo classificatore possiamo immaginare il training come se fosse il calcolo delle 2 medie, mentre per il secondo classificatore non vi è una sorta di allenamento, è una successione di tentativi mirati a cercare il valore ideale per la soglia <br>
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
