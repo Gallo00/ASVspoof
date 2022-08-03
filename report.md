@@ -21,7 +21,7 @@ Note
 
 ### Estrazione grafici delle features
 Lo strumento utilizzato per creare i grafici è stato matplotlib insieme ad alcune funzionalità di numpy. <br>
-L'idea è quella di creare 2 istogrammi relativi ai valori dei file sintetici e dei file con voce reale. <br>
+L'idea è quella di creare 2 istogrammi relativi ai valori dei file con voce sintetica e dei file con voce reale. <br>
 Gli istogrammi però hanno la caratteristica di creare delle "barre", porre 2 istogrammi sullo stesso grafico non rende facile la visualizzazione. <br>
 Quello che è stato fatto allora è creare degli istogrammi da convertire poi in curve, le 2 curve nel grafico sono più distinguibili rispetto ai 2 relativi istogrammi. <br>
 Si è deciso di graficare le varie features in modo tale da ottenere una rappresentazione di facile comprensione.
