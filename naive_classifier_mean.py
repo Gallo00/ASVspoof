@@ -7,20 +7,14 @@ import matplotlib.pyplot as plt
 BONAFIDE = 'bonafide'
 SPOOF = 'spoof'
 
-TH_INDEX = 0
-ACC_INDEX = 1
-ACC_PER_CLASS_INDEX = 2
-PREC_INDEX = 3
-REC_INDEX = 4
-EER_INDEX = 5
-CM_DISPLAY_INDEX = 6
+ACC_INDEX = 0
+ACC_PER_CLASS_INDEX = 1
+PREC_INDEX = 2
+REC_INDEX = 3
+EER_INDEX = 4
+CM_DISPLAY_INDEX = 5
 
-# formula here https://compbio.soe.ucsc.edu/genex/genexTR2html/node12.html
-def fisher_criterion(population1, population2):
-    return abs(np.mean(population1) - np.mean(population2)) / (np.var(population1) + np.var(population2))
-
-
-def normalize(population):
+def normalize(population, var):
     column = var
     pd.options.mode.chained_assignment = None 
     population[column] = (population[column] - population[column].min()) / (population[column].max() - population[column].min())
@@ -42,9 +36,10 @@ def save_files(model: list, type: str) -> None:
     with open(model_path + '/metrics.yml', 'w') as f: 
         for key, value in metrics.items(): 
             f.write('%s: %s\n' % (key, value))
-    
+    """
     with open(model_path + '/th.yml', 'w') as f:  
         f.write('%s: %s\n' % ('threshold', model[TH_INDEX]))
+    """
 
     if type == 'mean':
         line_md = "| **Naive** "
@@ -65,42 +60,56 @@ var = 'bit_rate'
 
 print("naive classifier based on: ", var)
 data_var = data[['label', var]]
-data_var = data.fillna(0)
+data_var = data_var.fillna(0)
 
 data_spoof = data_var[data['label'] == 'spoof']
 data_bonafide = data_var[data['label'] == 'bonafide']
 
+# normalize
+#data_spoof = normalize(data_spoof)
+#data_bonafide = normalize(data_bonafide)
 
-data_spoof_norm = normalize(data_spoof)
-data_bonafide_norm = normalize(data_bonafide)
 
 naive_models = []
 
 for i in range(10):
     ROWS = 10000
-    data_var = pd.concat([data_spoof_norm.sample(ROWS),data_bonafide_norm.sample(ROWS)],axis=0)
+    data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0)
 
     var_spoof = data_spoof[var].to_numpy() 
     var_bonafide = data_bonafide[var].to_numpy()
 
-    threshold = fisher_criterion(var_spoof, var_bonafide)
-    print(threshold)
+    #threshold = fisher_criterion(var_spoof, var_bonafide)
+    #print(threshold)
 
     data_var.insert(2,'pred_label','')
     #print(data)
 
     data_var.reset_index(inplace = True, drop = True)
 
+    """
     # let's classify
     for i in range(len(data_var)): 
-        #print("Total income in "+ df.loc[i,"Date"]+ " is:"+str(df.loc[i,"Income_1"]+df.loc[i,"Income_2"]))
         if data_var.loc[i, var] > threshold:
             data_var.loc[i, 'pred_label'] = 'bonafide'
         else:
             data_var.loc[i, 'pred_label'] = 'spoof'
+    """
+    mean_bonafide = var_bonafide.mean()
+    mean_spoof = var_spoof.mean()
 
-    data1 = data_var[data_var['pred_label'] == 'spoof']
+    #print(mean_bonafide)
+    #print(mean_spoof)
 
+    for i in range(len(data_var)):
+        dist_spoof = abs(data_var.loc[i, var] - mean_spoof)
+        dist_bonafide = abs(data_var.loc[i, var] - mean_bonafide)
+
+        if dist_spoof < dist_bonafide:
+            data_var.loc[i, 'pred_label'] = 'spoof'
+        else:
+            data_var.loc[i, 'pred_label'] = 'bonafide'
+    
     y_true = data_var['label'].to_numpy() 
     y_pred = data_var['pred_label'].to_numpy()
 
@@ -125,7 +134,8 @@ for i in range(10):
     print('rec:', rec)
     print('prec:', prec)
 
-    mod = [threshold, acc, acc_per_class, prec, rec, EER, cm_display]
+    #mod = [threshold, acc, acc_per_class, prec, rec, EER, cm_display]
+    mod = [acc, acc_per_class, prec, rec, EER, cm_display]
     naive_models.append(mod)
 
 

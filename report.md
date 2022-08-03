@@ -77,12 +77,13 @@ Si riporta la confusion matrix di RandomForestClassifier <br>
 
 ### Classificatore Naive
 Oltre ai classici modelli offerti dalla libreria sklearn si è optato per costruire un classificatore naive basato sulla feature bit_rate <br>
-Il classificatore molto banalmente calcola una soglia ideale e assegna una certa label in base a se il valore del bit_rate è maggiore o è minore della soglia. <br>
-Il metodo usato per calcolare la soglia è il <a href="https://compbio.soe.ucsc.edu/genex/genexTR2html/node12.html">discriminante di Fisher</a>, calcolato il valore di soglia il classificatore si comporta come un banale if-else
+Il classificatore molto banalmente prima calcola il valore medio del bit_rate sia per gli audio spoof sia per gli audio bonafide, successivamente per classificare un'osservazione calcolerà la distanza del corrispondente bit_rate dalle 2 medie.<br>
+Verrà assegnata la label corrispondente alla media più vicina. <br>
+Ad esempio se le 2 medie fossero 1.2 per spoof e 3.1 per bonafide e l'osservazione avesse bit_rate pari a 2.5 la label assegnata sarebbe bonafide.
 
 ### Risultati e Metriche del classificatore Naive
 Come prima mostriamo i risultati ottenuti dopo il training e l'allenamento del modello. <br>
-In questo caso possiamo immaginare il training come se fosse il calcolo del discriminante di Fisher <br>
+In questo caso possiamo immaginare il training come se fosse il calcolo delle 2 medie <br>
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
-| **Naive**                     |0.2468     |0.5064      |0.5064              |1.0        |0.0129      |
+| **Naive**                     |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
