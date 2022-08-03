@@ -87,7 +87,7 @@ Le soglie che verranno provate sono: 70.000, 71.400, 72.800 ..., 208.600, 210.00
 Nota
 - se si volesse trovare un valore ancora più accurato come soglia basterebbe usare un valore più alto di 100
 
-### Risultati e Metriche dei classificatore Naive
+### Risultati e Metriche dei classificatori Naive
 Come prima mostriamo i risultati ottenuti dopo il training e l'allenamento del modello. <br>
 Per il primo classificatore possiamo immaginare il training come se fosse il calcolo delle 2 medie, mentre per il secondo classificatore non vi è una sorta di allenamento, è una successione di tentativi mirati a cercare il valore ideale per la soglia <br>
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
