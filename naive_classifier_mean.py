@@ -14,19 +14,12 @@ REC_INDEX = 3
 EER_INDEX = 4
 CM_DISPLAY_INDEX = 5
 
-"""
-def normalize(population, var):
-    column = var
-    pd.options.mode.chained_assignment = None 
-    population[column] = (population[column] - population[column].min()) / (population[column].max() - population[column].min())
-    return population
-"""
 
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
 
-    model_path = './models/Naive_mean/' + type 
-
+    #model_path = './models_unbalanced/Naive_mean/' + type #unbalanced
+    model_path = './models/Naive_mean/' + type #balanced
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {
         "EER": model[EER_INDEX],
@@ -63,25 +56,22 @@ data_var = data_var.fillna(0)
 data_spoof = data_var[data['label'] == 'spoof']
 data_bonafide = data_var[data['label'] == 'bonafide']
 
-# normalize
-#data_spoof = normalize(data_spoof)
-#data_bonafide = normalize(data_bonafide)
 
 
 naive_models = []
 
 for i in range(10):
     ROWS = 10000
-    data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0)
+    data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0) #balanced
+
+    #data_var = pd.concat([data_spoof, data_bonafide], axis=0) #unbalanced
+    #data_var = data_var.sample(2*ROWS) #unbalanced
 
     var_spoof = data_spoof[var].to_numpy() 
     var_bonafide = data_bonafide[var].to_numpy()
 
-    #threshold = fisher_criterion(var_spoof, var_bonafide)
-    #print(threshold)
 
     data_var.insert(2,'pred_label','')
-    #print(data)
 
     data_var.reset_index(inplace = True, drop = True)
 

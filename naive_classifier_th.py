@@ -19,8 +19,8 @@ CM_DISPLAY_INDEX = 6
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
 
-    model_path = './models/Naive_th/' + type 
-
+    model_path = './models/Naive_th/' + type #balanced
+    #model_path = './models_unbalanced/Naive_th/' + type #unbalanced
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {
         "EER": model[EER_INDEX],
@@ -72,7 +72,11 @@ naive_models = []
 for i in range(threshold_tries):
     ROWS = 10000
     print(threshold)
-    data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0)
+    data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0) #balanced
+
+
+    #data_var = pd.concat([data_spoof, data_bonafide], axis=0) #unbalanced
+    #data_var = data_var.sample(2*ROWS) #unbalanced
 
     var_spoof = data_spoof[var].to_numpy() 
     var_bonafide = data_bonafide[var].to_numpy()

@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, confu
 import pandas as pd
 import numpy as np
 from typing import Union
-from constants import ROWS_CREATION_MODELS, VARIABLES_TO_MANTAIN
+from constants import  VARIABLES_TO_MANTAIN
 from metrics_eer_accperclass import compute_eer, compute_accperclass
 
 
@@ -28,9 +28,14 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     data1 = data[data['label'] == 'spoof']
     data2 = data[data['label'] == 'bonafide']
 
-    #create a balanced situation
     ROWS = 10000
-    data = pd.concat([data1.sample(ROWS),data2.sample(ROWS)],axis=0)
+    #create a balanced situation
+    data = pd.concat([data1.sample(ROWS),data2.sample(ROWS)],axis=0) #balanced
+    
+    
+    #data = pd.concat([data1, data2], axis=0) #unbalanced
+    #data = data.sample(2*ROWS) #unbalanced
+    
 
     X = data.copy()
     X = X.drop('label',axis=1)

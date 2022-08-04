@@ -47,14 +47,36 @@ Considerando i risultati non soddisfacenti ottenuti nella creazione dei grafici 
 Dai grafici ottenuti precedentemente si è potuta fare una selezione delle features preliminarmente all'allenamento del modello, sono state scartate tutte le features eccetto le 5 che mostravano 2 distribuzioni leggermente diverse. <br>
 I modelli allenati sono stati i seguenti: DecisionTreeClassifier, SVC, LogisticRegression, KNeighborsClassifier, LinearDiscriminantAnalysis, RandomForestClassifier, MLPClassifier, AdaBoostClassifier, GaussianNB, MultinomialNB e QuadraticDiscriminantAnalysis. <br>
 
-### Risultati del training
+#### Situazione Sbilanciata
+Il dataset offerto da ASVspoof 21 è molto sbilanciato a favore degli audio con label spoof. <br>
+Si sono trainati i modelli prima lasciando una situazione sbilanciata e poi bilanciando le occorrenze delle due labels.
+
+#### Risultati del training
 Vengono mostrati i valori delle metriche memorizzate ottenuti dopo aver testato il modello. <br>
 Le metriche sono: EER, accuracy, accuracy per class, precision e recall. <br>
 Il modello viene trainato e testato per 10 volte. <br>
 Viene preso in considerazione il modello con l'EER più vicino alla media
 
-Nota
-- I risultati sono approssimati alla quarta cifra decimale
+|Model                              |EER        |Accuracy    |Accuracy per class  |Precision  |Recall      |
+|-----------------------------------|-----------|------------|--------------------|-----------|------------|
+| **DecisionTreeClassifier**        |0.0321     |0.9358      |0.5916              |0.2222     |0.216       |
+| **SVC**                           |0.0183     |0.9633      |0.5                 |0.0        |0.0         |
+| **LogisticRegression**            |0.0189     |0.9622      |0.5                 |0.0        |0.0         |
+| **KNeighborsClassifier**          |0.0487     |0.9027      |0.5606              |0.0875     |0.1932      |
+| **LinearDiscriminantAnalysis**    |0.0187     |0.9627      |0.5062              |0.3        |0.0136      |
+| **RandomForestClassifier**        |0.0183     |0.9633      |0.5221              |0.3333     |0.0476      |
+| **MLPClassifier**                 |0.0183     |0.9633      |0.5                 |0.0        |0.0         |
+| **AdaBoostClassifier**            |0.0182     |0.9635      |0.5                 |0.0        |0.0         |
+| **GaussianNB**                    |0.0207     |0.9587      |0.522               |0.1803     |0.0526      |
+| **MultinomialNB**                 |0.0184     |0.9632      |0.5                 |0.0        |0.0         |
+| **QuadraticDiscriminantAnalysis** |0.0197     |0.9607      |0.5341              |0.2963     |0.0748      |
+
+L'EER ottenuto da questi esperimenti sembra promettere buoni risultati ma guardando bene le altre metriche si notano comunque risultati per nulla ottimi.
+
+#### Situazione bilanciata
+Proviamo gli stessi esperimenti però bilanciando le 2 labels, adesso se nella fase di allenamento e testing vi sono N occorrenze con label spoof, ve ne saranno N con label bonafide
+### Risultati del training
+Stesse considerazioni di prima
 
 | Model                             | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-----------------------------------|-----------|------------|--------------------|-----------|------------|
@@ -90,8 +112,22 @@ Nota
 ### Risultati e Metriche dei classificatori Naive
 Come prima mostriamo i risultati ottenuti dopo il training e il testing del modello. <br>
 Per il primo classificatore possiamo immaginare il training come se fosse il calcolo delle 2 medie, mentre per il secondo classificatore non vi è una sorta di allenamento, è una successione di tentativi mirati a cercare il valore ideale per la soglia <br>
+
+Come prima gli esperimenti sono stati condotti prima con una situazione sbilanciata e poi con una situazione bilanciata
+
+#### Situazione sbilanciata
+| Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
+|-------------------------------|-----------|------------|--------------------|-----------|------------|
+| **Naive_mean**                |0.1614     |0.6771      |0.6692              |0.0752     |0.6606      |
+| **Naive_th**                  |0.0175     |0.965       |0.5012              |0.1667     |0.0029      |
+### Situazione bilanciata
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
 | **Naive_mean**                |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
 | **Naive_th**                  |0.1628     |0.6744      |0.6744              |0.7448     |0.5308      |
- 
+
+#### Conclusioni sulla creazione dei modelli
+Come previsto non sono stati creati dei modelli di classificazione eccellenti con le stesse tecniche usate su ASVspoof 19, questo è dovuto al fatto che in questo dataset le features assumono quasi lo stesso comportamento nonostante le diverse labels. <br>
+Si è inoltre provato che bilanciando la situazione le metriche ottenute sono cambiate considerevolmente
+
+
