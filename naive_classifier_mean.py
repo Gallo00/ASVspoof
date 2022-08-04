@@ -18,6 +18,7 @@ CM_DISPLAY_INDEX = 5
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
 
+    #model_path = './models_test_all_ds/Naive_mean/' + type
     #model_path = './models_unbalanced/Naive_mean/' + type #unbalanced
     model_path = './models/Naive_mean/' + type #balanced
     plt.savefig(model_path + '/conf_matrix.png')
@@ -56,13 +57,12 @@ data_var = data_var.fillna(0)
 data_spoof = data_var[data['label'] == 'spoof']
 data_bonafide = data_var[data['label'] == 'bonafide']
 
-
-
 naive_models = []
 
 for i in range(10):
     ROWS = 10000
     data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0) #balanced
+    #data_var = pd.concat([data_spoof,data_bonafide],axis=0) #test on all dataset
 
     #data_var = pd.concat([data_spoof, data_bonafide], axis=0) #unbalanced
     #data_var = data_var.sample(2*ROWS) #unbalanced
@@ -75,19 +75,9 @@ for i in range(10):
 
     data_var.reset_index(inplace = True, drop = True)
 
-    """
-    # let's classify
-    for i in range(len(data_var)): 
-        if data_var.loc[i, var] > threshold:
-            data_var.loc[i, 'pred_label'] = 'bonafide'
-        else:
-            data_var.loc[i, 'pred_label'] = 'spoof'
-    """
     mean_bonafide = var_bonafide.mean()
     mean_spoof = var_spoof.mean()
 
-    #print(mean_bonafide)
-    #print(mean_spoof)
 
     for i in range(len(data_var)):
         dist_spoof = abs(data_var.loc[i, var] - mean_spoof)

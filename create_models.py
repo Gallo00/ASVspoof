@@ -19,8 +19,9 @@ lines_md.append("|-------------------------------|-----------|------------|-----
 def save_files(model: list, type: str) -> None:
     model[CM_DISPLAY_INDEX].plot()
 
+    model_path = './models_test_all_ds/' + classifier.__name__ + '/' + type
     #model_path = './models_unbalanced/' + classifier.__name__ + '/' + type #unbalanced
-    model_path = './models/' + classifier.__name__ + '/' + type #balanced
+    #model_path = './models/' + classifier.__name__ + '/' + type #balanced
 
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {

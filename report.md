@@ -47,9 +47,9 @@ Considerando i risultati non soddisfacenti ottenuti nella creazione dei grafici 
 Dai grafici ottenuti precedentemente si è potuta fare una selezione delle features preliminarmente all'allenamento del modello, sono state scartate tutte le features eccetto le 5 che mostravano 2 distribuzioni leggermente diverse. <br>
 I modelli allenati sono stati i seguenti: DecisionTreeClassifier, SVC, LogisticRegression, KNeighborsClassifier, LinearDiscriminantAnalysis, RandomForestClassifier, MLPClassifier, AdaBoostClassifier, GaussianNB, MultinomialNB e QuadraticDiscriminantAnalysis. <br>
 
-#### Situazione Sbilanciata
-Il dataset offerto da ASVspoof 21 è molto sbilanciato a favore degli audio con label spoof. <br>
-Si sono trainati i modelli prima lasciando una situazione sbilanciata e poi bilanciando le occorrenze delle due labels.
+#### Situazione non bilanciata
+Il dataset offerto da ASVspoof 21 è molto poco bilanciato a favore degli audio con label spoof. <br>
+Si sono trainati i modelli prima lasciando una situazione non bilanciata e poi bilanciando le occorrenze delle due labels.
 
 #### Risultati del training
 Vengono mostrati i valori delle metriche memorizzate ottenuti dopo aver testato il modello. <br>
@@ -113,9 +113,9 @@ Nota
 Come prima mostriamo i risultati ottenuti dopo il training e il testing del modello. <br>
 Per il primo classificatore possiamo immaginare il training come se fosse il calcolo delle 2 medie, mentre per il secondo classificatore non vi è una sorta di allenamento, è una successione di tentativi mirati a cercare il valore ideale per la soglia <br>
 
-Come prima gli esperimenti sono stati condotti prima con una situazione sbilanciata e poi con una situazione bilanciata
+Come prima gli esperimenti sono stati condotti prima con una situazione non bilanciata e poi con una situazione bilanciata
 
-#### Situazione sbilanciata
+#### Situazione non bilanciata
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
 | **Naive_mean**                |0.1614     |0.6771      |0.6692              |0.0752     |0.6606      |

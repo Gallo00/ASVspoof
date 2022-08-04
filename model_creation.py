@@ -12,6 +12,7 @@ from constants import  VARIABLES_TO_MANTAIN
 from metrics_eer_accperclass import compute_eer, compute_accperclass
 
 
+#def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]: #test on all ds
 def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     data1 = pd.read_csv('./datasetPart00l.csv')
     data2 = pd.read_csv('./datasetPart01l.csv')
@@ -32,7 +33,14 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     #create a balanced situation
     data = pd.concat([data1.sample(ROWS),data2.sample(ROWS)],axis=0) #balanced
     
-    
+    """
+    #test on all dataset
+    all_data = pd.concat([data1 , data2],axis=0)
+    all_X = all_data.copy()
+    all_X = all_X.drop('label',axis=1)
+    all_Y = all_data['label']
+    """
+
     #data = pd.concat([data1, data2], axis=0) #unbalanced
     #data = data.sample(2*ROWS) #unbalanced
     
@@ -42,14 +50,21 @@ def get_training_test_sets() -> Union[pd.DataFrame, pd.DataFrame, pd.DataFrame, 
     Y = data['label']
 
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, shuffle=True, test_size=0.3)
+
+    #return X_train, X_test, Y_train, Y_test, all_X, all_Y #test on all dataset
     return X_train, X_test, Y_train, Y_test
 
 
 
 def model_creation(classifier: any, labels: list) -> Union[any, np.float64, ConfusionMatrixDisplay ]:
     [BONAFIDE, SPOOF] = labels
+    # X_train, X_test, Y_train, Y_test, X, Y = get_training_test_sets() #test on all dataset
     X_train, X_test, Y_train, Y_test = get_training_test_sets()
-
+    
+    # test on ALL dataset
+    #X_test = X
+    #Y_test = Y
+    
     # set neighbors to 2 if the classifier is KNN
     model_params = {}
     if classifier == KNeighborsClassifier:
@@ -62,7 +77,8 @@ def model_creation(classifier: any, labels: list) -> Union[any, np.float64, Conf
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
 
-    model.fit(X_train, Y_train)
+    model.fit(X_train, Y_train) #training
+
     predictions = model.predict(X_test)
 
     acc = accuracy_score(Y_test, predictions)

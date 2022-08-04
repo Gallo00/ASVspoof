@@ -21,6 +21,7 @@ def save_files(model: list, type: str) -> None:
 
     model_path = './models/Naive_th/' + type #balanced
     #model_path = './models_unbalanced/Naive_th/' + type #unbalanced
+    #model_path = './models_test_all_ds/Naive_th/' + type # test on all dataset
     plt.savefig(model_path + '/conf_matrix.png')
     metrics = {
         "EER": model[EER_INDEX],
@@ -74,6 +75,7 @@ for i in range(threshold_tries):
     print(threshold)
     data_var = pd.concat([data_spoof.sample(ROWS),data_bonafide.sample(ROWS)],axis=0) #balanced
 
+    #data_var = pd.concat([data_spoof,data_bonafide],axis=0) # test on all dataset
 
     #data_var = pd.concat([data_spoof, data_bonafide], axis=0) #unbalanced
     #data_var = data_var.sample(2*ROWS) #unbalanced
