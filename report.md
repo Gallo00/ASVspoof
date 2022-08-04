@@ -75,7 +75,7 @@ L'EER ottenuto da questi esperimenti sembra promettere buoni risultati ma guarda
 
 #### Situazione bilanciata
 Proviamo gli stessi esperimenti però bilanciando le 2 labels, adesso se nella fase di allenamento e testing vi sono N occorrenze con label spoof, ve ne saranno N con label bonafide
-### Risultati del training
+#### Risultati del training
 Stesse considerazioni di prima
 
 | Model                             | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
@@ -120,7 +120,7 @@ Come prima gli esperimenti sono stati condotti prima con una situazione sbilanci
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
 | **Naive_mean**                |0.1614     |0.6771      |0.6692              |0.0752     |0.6606      |
 | **Naive_th**                  |0.0175     |0.965       |0.5012              |0.1667     |0.0029      |
-### Situazione bilanciata
+#### Situazione bilanciata
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
 | **Naive_mean**                |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
