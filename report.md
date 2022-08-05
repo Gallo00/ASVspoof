@@ -48,7 +48,7 @@ Dai grafici ottenuti precedentemente si è potuta fare una selezione delle featu
 I modelli allenati sono stati i seguenti: DecisionTreeClassifier, SVC, LogisticRegression, KNeighborsClassifier, LinearDiscriminantAnalysis, RandomForestClassifier, MLPClassifier, AdaBoostClassifier, GaussianNB, MultinomialNB e QuadraticDiscriminantAnalysis. <br>
 
 #### Situazione non bilanciata
-Il dataset offerto da ASVspoof 21 è molto poco bilanciato a favore degli audio con label spoof. <br>
+Il dataset offerto da ASVspoof 21 non è bilanciato a favore degli audio con label spoof. <br>
 Si sono trainati i modelli prima lasciando una situazione non bilanciata e poi bilanciando le occorrenze delle due labels.
 
 #### Risultati del training
