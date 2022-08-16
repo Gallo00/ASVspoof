@@ -101,7 +101,7 @@ Si riporta la confusion matrix di RandomForestClassifier <br>
 Oltre ai classici modelli offerti dalla libreria sklearn si è optato per costruire 2 classificatori naive basati sulla feature bit_rate <br>
 Il primo classificatore molto banalmente prima calcola il valore medio del bit_rate sia per gli audio spoof sia per gli audio bonafide, successivamente per classificare un'osservazione calcolerà la distanza del corrispondente bit_rate dalle 2 medie.<br>
 Verrà assegnata la label corrispondente alla media più vicina. <br>
-Ad esempio se le 2 medie fossero 1.2 per spoof e 3.1 per bonafide e l'osservazione avesse bit_rate pari a 2.5 la label assegnata sarebbe bonafide. <br>
+Ad esempio se le 2 medie fossero 120.000 per spoof e 160.000 per bonafide e l'osservazione avesse bit_rate pari a 150.000, la label assegnata sarebbe bonafide. <br>
 Il secondo classificatore invece cerca di trovare un valore idoneo per una soglia, trovata la soglia il classificatore si comporterà semplicemente come un if-else, cioè se la feature dell'osservazione supera la soglia viene assegnata classe X altrimenti classe Y. <br>
 Per trovare una soglia vicina all'ideale molto semplicemente si è suddiviso lo spazio tra il valore minimo e massimo della feature per 100 e si sono poi provate 100 soglie, viene presa in considerazione la soglia il cui relativo EER è il più basso. <br>
 Ad esempio se il valore minimo fosse 70.000 e il massimo fosse 210.000, si dovrebbe calcolare (210000 - 70000)/100 che risulta 1400. <br>
