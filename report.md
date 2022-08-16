@@ -118,12 +118,12 @@ Come prima gli esperimenti sono stati condotti prima con una situazione non bila
 #### Situazione non bilanciata
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
-| **Naive_mean**                |0.1614     |0.6771      |0.6692              |0.0752     |0.6606      |
+| **Naive_mean**                |0.1594     |0.6812      |0.6786              |0.0811     |0.6758      |
 | **Naive_th**                  |0.0175     |0.965       |0.5012              |0.1667     |0.0029      |
 #### Situazione bilanciata
 | Model                         | EER       | Accuracy   | Accuracy per class | Precision | Recall     |
 |-------------------------------|-----------|------------|--------------------|-----------|------------|
-| **Naive_mean**                |0.1674     |0.6651      |0.6651              |0.6701     |0.6503      |
+| **Naive_mean**                |0.1668     |0.6664      |0.6664              |0.6731     |0.6473      |
 | **Naive_th**                  |0.1628     |0.6744      |0.6744              |0.7448     |0.5308      |
 
 #### Conclusioni sulla creazione dei modelli

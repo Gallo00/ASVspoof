@@ -13,6 +13,8 @@ PREC_INDEX = 2
 REC_INDEX = 3
 EER_INDEX = 4
 CM_DISPLAY_INDEX = 5
+M_S_INDEX = 6
+M_B_INDEX = 7
 
 
 def save_files(model: list, type: str) -> None:
@@ -31,6 +33,14 @@ def save_files(model: list, type: str) -> None:
     }
     with open(model_path + '/metrics.yml', 'w') as f: 
         for key, value in metrics.items(): 
+            f.write('%s: %s\n' % (key, value))
+
+    means = {
+        "mean_spoof": model[M_S_INDEX],
+        "mean_bonafide": model[M_B_INDEX],
+    }
+    with open(model_path + '/means.yml', 'w') as f: 
+        for key, value in means.items(): 
             f.write('%s: %s\n' % (key, value))
 
     if type == 'mean':
@@ -112,8 +122,7 @@ for i in range(10):
     print('rec:', rec)
     print('prec:', prec)
 
-    #mod = [threshold, acc, acc_per_class, prec, rec, EER, cm_display]
-    mod = [acc, acc_per_class, prec, rec, EER, cm_display]
+    mod = [acc, acc_per_class, prec, rec, EER, cm_display, mean_spoof, mean_bonafide]
     naive_models.append(mod)
 
 
