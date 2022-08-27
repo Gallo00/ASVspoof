@@ -1,3 +1,6 @@
 set_tesi
 __pycache__
-dataset.csv
+pyenv
+*.csv
+models_test_all_ds
+template_models

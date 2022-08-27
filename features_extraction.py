@@ -4,6 +4,7 @@ import os
 from tqdm import tqdm
 
 from wrapper_features import compute_features
+import mutagen
 
 from constants import FEATURES
 
@@ -52,12 +53,12 @@ packs = [[arr_files_part00, len00, lines00, "Part00","set_tesi/ASVspoof2021_DF_e
 #4: path
 
 # create csv and set the header 
-with open('dataset.csv', 'w', newline='') as file:
+with open('dataset_n2.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["file","label"] + FEATURES)
     file.close()
 
-file = open('prova.csv','a',newline='')
+file = open('dataset_n2.csv','a+',newline='')
 writer = csv.writer(file)
 
 
@@ -75,9 +76,15 @@ for pack in packs:
         row_file.append(arr_row[5])
 
         file_audio = pack[0][i]
-        file_audioR , samplerate = sf.read(pack[4] + file_audio)
+        
+        file_audioR , samplerate = sf.read(pack[4] + row_file[0])
 
-        list_features = compute_features(file_audioR,samplerate)
+        list_features = compute_features(file_audioR, samplerate)
+
+        f = mutagen.File(pack[4] + row_file[0])
+        bitrate = f.info.bitrate
+
+        list_features.append(bitrate)
 
         # creation of new line 
         # file_name.flac - label - feature1 - feature2 ... featureN

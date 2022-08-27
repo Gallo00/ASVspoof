@@ -9,8 +9,15 @@ def clear_plt() -> void:
     plt.clf()
     plt.cla()
     plt.close()
+    name_axes()
 
-def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str) -> Union[np.ndarray,int]:
+def name_axes() -> void:
+    axes = plt.axes()
+    axes.set_ylabel("Occurences (%)")
+    axes.set_xlabel("Values")
+
+def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder: str,
+ y_lims: tuple, x_lims: tuple) -> Union[np.ndarray,int]:
     color = 'red'
     if(folder == 'bonafide'):
         color = 'blue'
@@ -18,21 +25,33 @@ def save_fig_single_plot(feat: str, dataframe: pd.DataFrame, method: str, folder
     plt.title(feat)
 
     col = dataframe[feat].tolist()
-    curve, lsize = create_curve(col, method=method) 
-    plt.plot(curve, color=color)
+    curve,bincenters, lsize = create_curve(col, method=method) 
+    plt.plot(bincenters,curve, color=color)
 
     plt.savefig('img_feat_' + method + '/' + folder + '/' + feat + '.png')
     return curve, lsize
 
-def save_fig_double_plot(feat: str, lsize_deepfake: int, curve_deepfake: np.ndarray,
- lsize_bonafide: int, curve_bonafide: np.ndarray, method: str) -> void:
+def save_fig_double_plot(feat: str, dataframe_bonafide: pd.DataFrame,
+ dataframe_deepfake: pd.DataFrame, method: str) -> Union[tuple, tuple]:
     plt.title(feat)
 
-    plt.plot(curve_deepfake, color='red')
-    plt.plot(curve_bonafide, color='blue')
+    col_bonafide = dataframe_bonafide[feat].tolist()
+    curve_bonafide,bincenters_bonafide, lsize_bonafide = create_curve(col_bonafide, method=method)
+
+    col_deepfake = dataframe_deepfake[feat].tolist()
+    curve_deepfake,bincenters_deepfake, lsize_deepfake = create_curve(col_deepfake, method=method)
+
+
+    plt.plot(bincenters_deepfake,curve_deepfake, color='red')
+
+    plt.plot(bincenters_bonafide,curve_bonafide, color='blue')
 
     leg_str_deepfake = 'deepfake (' + str(lsize_deepfake) + ')'
     leg_str_bonafide = 'bonafide (' + str(lsize_bonafide) + ')'
     plt.legend([leg_str_deepfake,leg_str_bonafide])
 
+    y_lims = plt.gca().get_ylim()
+    x_lims = plt.gca().get_xlim()
     plt.savefig('img_feat_' + method + '/bonafide_deepfake/' + feat + '.png')
+
+    return y_lims, x_lims

@@ -10,9 +10,9 @@ from spafe.fbanks import mel_fbanks , bark_fbanks , gammatone_fbanks
 from spafe.features.spfeats import extract_feats
 
 import statistics
-import numpy
+import numpy as np
 
-def compute_features(file_audio: numpy.array, samplerate: int) -> list:
+def compute_features(file_audio: np.array, samplerate: int) -> list:
 
     output = []
 

@@ -18,23 +18,30 @@ def freedman_diaconis(values: list) -> int:
         return 50
     return bins
 
-def generate_hist(data: list, method='freedman_diaconis') -> np.ndarray:
+def generate_hist(data: list, method='freedman_diaconis') -> Union[np.ndarray, np.ndarray]:
     bins = 50
     if method == 'freedman_diaconis':
         bins = freedman_diaconis(data)
     elif method == 'knuth':
         bins = opt_bins(data,len(data))
     
-    hist, __ = np.histogram(data, bins=bins)
-    return  hist
+    hist, bin_edges = np.histogram(data, bins=bins)
+    bincenters = 0.5 *(bin_edges[1:] + bin_edges[:-1])
 
-def create_curve(values: list, resize=None, method='freedman_diaconis') -> Union[np.ndarray, int]:
+    sum = hist.sum()
+    hist = hist / sum
+
+    #print(hist.sum())
+    #hist = (hist - hist.min())/ (hist.max() - hist.min())
+    return  hist, bincenters
+
+def create_curve(values: list, resize=None, method='freedman_diaconis') -> Union[np.ndarray,np.ndarray, int]:
     for idx in range(len(values)):
         if np.isnan(values[idx]):
             values[idx] = 0
     if resize:
         values = values[:resize]
-    hist = generate_hist(values,method)
+    hist, bincenters = generate_hist(values,method)
     list_size = str(len(values))
     #if we plot hist using plt.plot(), it will be similar to a curve
-    return hist, list_size
+    return hist,bincenters, list_size
