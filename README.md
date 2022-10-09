@@ -59,5 +59,8 @@ set_tesi
 <br>
 After features extraction we can launch python stats.py <br>
 It will create and save some charts into the directories img_feat_knuth and img_feat_freedman_diaconis. <br>
-The charts represent the behavior of various features for both labels (bonafide and spoof)
+The charts represent the behavior of various features for both labels (bonafide and spoof) <br>
 
+The script create_models.py will train and save various models. <br>
+The script naive_classifier_th.py will create a naive model based on research of an good threshold of feature bit_rate to classify audio files.
+The script naive_classifier_mean.py is similar to the classifier based on threshold, but this one is based on mean of bit_rate.
